@@ -1,0 +1,21 @@
+
+<ion-item>
+    <ion-input 
+        label="Créer une tâche"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Faire la lessive"
+        [(ngModel)]="newTodoTitle"
+    ></ion-input>
+    <ion-button shape="round" slot="end" (click)="createTodo()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+</ion-item>
+
+<app-todo-item 
+    *ngFor="let todo of todoList$|async" [todo]="todo"
+    (remove)="_firestoreService.removeTodoItem($event)"
+    (toggle)="_firestoreService.toggleTodoItem($event)"
+></app-todo-item>
+
+

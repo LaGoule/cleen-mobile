@@ -30,7 +30,40 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "node_modules/@ionic/angular/css/core.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/normalize.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/structure.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/typography.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/display.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/padding.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/float-elements.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/text-alignment.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/text-transformation.css"
+              },
+              {
+                "input": "node_modules/@ionic/angular/css/flex-utils.css"
+              },
+              {
+                "input": "src/theme/variables.css"
+              }
             ],
             "scripts": []
           },
@@ -94,8 +127,62 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "cleen-mobile:build:production",
+              "serveTarget": "cleen-mobile:serve:production"
+            },
+            "development": {
+              "buildTarget": "cleen-mobile:build:development",
+              "serveTarget": "cleen-mobile:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "ionic-cordova-serve": {
+          "builder": "@ionic/angular-toolkit:cordova-serve",
+          "options": {
+            "cordovaBuildTarget": "cleen-mobile:ionic-cordova-build",
+            "devServerTarget": "cleen-mobile:serve"
+          },
+          "configurations": {
+            "production": {
+              "cordovaBuildTarget": "cleen-mobile:ionic-cordova-build:production",
+              "devServerTarget": "cleen-mobile:serve:production"
+            }
+          }
+        },
+        "ionic-cordova-build": {
+          "builder": "@ionic/angular-toolkit:cordova-build",
+          "options": {
+            "browserTarget": "cleen-mobile:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "cleen-mobile:build:production"
+            }
+          }
         }
       }
+    }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@ionic/angular-toolkit"
+    ]
+  },
+  "schematics": {
+    "@ionic/angular-toolkit:component": {
+      "styleext": "scss"
+    },
+    "@ionic/angular-toolkit:page": {
+      "styleext": "scss"
     }
   }
 }

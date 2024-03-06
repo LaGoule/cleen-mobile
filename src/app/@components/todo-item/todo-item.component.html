@@ -1,0 +1,10 @@
+<ion-item (click)="toggleTodo()">
+    <ion-checkbox  slot="start" [checked]="todo.completed"></ion-checkbox>
+    <ion-label>
+        {{ this.todo.title }}
+    </ion-label>
+    <ion-badge class="pointsTag" *ngIf="this.todo.points">{{ this.todo.points }} ⭑</ion-badge>
+    <ion-button color="danger" fill="clear" slot="end" (click)="onRemove()">
+        <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+    </ion-button>
+</ion-item>

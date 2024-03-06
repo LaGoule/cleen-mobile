@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "cleen-mobile",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "cleen-63d70": {
+      "hosting": {
+        "cleen-mobile": [
+          "cleen-63d70"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "cleen-63d70"
+  }
+}
