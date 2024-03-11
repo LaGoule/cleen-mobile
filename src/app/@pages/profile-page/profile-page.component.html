@@ -1,0 +1,10 @@
+<app-page-header [title]="this.title"></app-page-header>
+<ion-content class="ion-padding">
+  <ion-back-button defaultHref="/members"></ion-back-button>
+  <!-- Content goes here -->
+  
+  <ion-button (click)="logout()" color="danger" expand="block">
+    Logout
+    <ion-icon name="log-out-outline" slot="end"></ion-icon>
+  </ion-button>
+</ion-content>

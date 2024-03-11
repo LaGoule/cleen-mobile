@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 import { FirestoreService } from '../../@services/firestore.service';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons'
-import { add } from 'ionicons/icons';
+import { add, search, filter } from 'ionicons/icons';
+addIcons({ add, search, filter});
 
 @Component({
   selector: 'app-todo-list',
@@ -22,27 +23,12 @@ import { add } from 'ionicons/icons';
   styleUrl: './todo-list.component.scss'
 })
 export class TodoListComponent {
-
   todoList$: Observable<iTodo[]> = this._firestoreService.loadTodos('BNa7XXnCtJhLs8qSR1Oa');
-  newTodoTitle: string = '';
 
-  constructor(protected readonly _firestoreService: FirestoreService){
-    addIcons({ add });
-  }
+  constructor(
+    protected readonly _firestoreService: FirestoreService
+  ){}
 
   ngOnInit(): void {}
-
-  protected createTodo(): void {
-    if (this.newTodoTitle.trim() === '') {
-      this.newTodoTitle = '';
-      return;
-    }
-    this._firestoreService.addTodoItem({
-      groupId: 'BNa7XXnCtJhLs8qSR1Oa',
-      title: this.newTodoTitle,
-      completed: false
-    });
-    this.newTodoTitle = '';
-  }
 
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, NO_ERRORS_SCHEMA } from '@angular/core';
 import { iTodo } from '../../@interfaces/interfaces';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons'
@@ -13,7 +13,8 @@ import { trash } from 'ionicons/icons';
     IonicModule,
   ],
   templateUrl: './todo-item.component.html',
-  styleUrl: './todo-item.component.scss'
+  styleUrl: './todo-item.component.scss',
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class TodoItemComponent {
   @Input() todo!: iTodo;

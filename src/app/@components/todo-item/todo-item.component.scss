@@ -1,21 +1,6 @@
-// li {
-//     display: flex;
-//     gap: 10px;
-//     align-items: center;
-//     padding: 4px 10px;
-//     border: 1px solid #ccc;
-//     border-radius: 5px;
-//     background-color: #f4f4f4;
-
-//     cursor: pointer;
-// }
-// li:hover {
-//     background-color: #eaeaea;
-// }
-// .pointsTag{
-//     display: inline-block;
-//     background-color: white;
-
-//     padding: 2px 5px;
-//     border-radius: 2px;
-// }
+:host{
+    .completed{
+        text-decoration: line-through;
+        opacity: 50%;
+    }
+}

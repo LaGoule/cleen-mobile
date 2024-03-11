@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar mode="md" color="primary">
+    <ion-buttons 
+      *ngIf="backUrl !== ''" 
+      slot="start"
+    >
+      <ion-back-button [defaultHref]="backUrl"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ title }}</ion-title>
+
+      <ion-chip slot="end" class="avatarsStack" fill="clear">
+        <ion-avatar>
+          <img alt="username" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+      </ion-chip>
+
+  </ion-toolbar>
+</ion-header>

@@ -1,6 +1,12 @@
-<ion-content>
+<app-page-header [title]="title"></app-page-header>
+<ion-content class="ion-padding">
     <h2>Bienvenu</h2>
     <p>Veuillez vous connecter.</p>
-    
-    <button (click)="loginWithGoogle()">Se connecter avec Google</button>
+
+    <!-- <ion-button (click)="loginWithGoogle()">Se connecter avec Google</ion-button> -->
+
+    <ion-button (click)="testLogin()" color="primary" expand="block">
+        Se connecter
+        <ion-icon name="log-in-outline" slot="end"></ion-icon>
+    </ion-button>
 </ion-content>

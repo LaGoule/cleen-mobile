@@ -1,9 +1,23 @@
+<app-page-header [title]="this.title"></app-page-header>
 <ion-content>
-    <ion-header>
-        <ion-toolbar color="primary">
-            <ion-title>{{ title }}</ion-title>
-        </ion-toolbar>
-    </ion-header>
+
+    <ion-item>
+        <ion-label>
+            Bienvenue
+        </ion-label>
+        <ion-item-group>
+            <ion-button fill="clear" (click)="navigateToSearch()">
+                <ion-icon name="search" slot="icon-only"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear">
+                <ion-icon name="filter" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ion-item-group>
+    </ion-item>
+
+    <ion-button id="open-modal">Ajouter une tâche</ion-button>
     <app-todo-list></app-todo-list>
+    
+    <app-new-todo-modal></app-new-todo-modal>
 </ion-content>
 

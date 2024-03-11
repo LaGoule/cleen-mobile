@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Firestore, QueryConstraint, collection, collectionData, query, where, doc, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { 
+  Firestore, QueryConstraint, 
+  collection, collectionData, 
+  query, where, doc, addDoc, updateDoc, deleteDoc 
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { iTodo } from '../@interfaces/interfaces';
 
@@ -8,7 +12,9 @@ import { iTodo } from '../@interfaces/interfaces';
 })
 export class FirestoreService {
 
-  constructor(private readonly _firestore: Firestore) { }
+  constructor(
+    private readonly _firestore: Firestore
+  ) {}
 
   /**
    * Method to load all the todos from the database with the group ID

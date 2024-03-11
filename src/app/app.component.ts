@@ -1,24 +1,21 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TodoListComponent } from './@components/todo-list/todo-list.component';
-// import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
-import { addIcons } from 'ionicons';
-import { add, list, calendar, ribbon, personCircle, } from 'ionicons/icons';
-addIcons({ add, list, calendar, ribbon, personCircle, });
+import { UpdatesNotificationComponent } from './@components/update-notification/update-notification.component';
+import { TabBarComponent } from './@components/tab-bar/tab-bar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
-    TodoListComponent,
-    IonicModule
+    IonicModule,
+    TabBarComponent,
+    UpdatesNotificationComponent,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {
   title = 'Cleen';
