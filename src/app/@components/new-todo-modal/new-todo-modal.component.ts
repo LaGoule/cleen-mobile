@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { ModalController } from '@ionic/angular/standalone';
 import { OverlayEventDetail } from '@ionic/core';
 import { FirestoreService } from '../../@services/firestore.service';
+import { GroupService } from '../../@services/group.service';
 import { FormsModule } from '@angular/forms';
 import { iTodo } from '../../@interfaces/interfaces';
 
@@ -17,29 +18,23 @@ import { iTodo } from '../../@interfaces/interfaces';
   ]
 })
 export class NewTodoModalComponent  implements OnInit {
+  @Input() isOpen!: boolean;
+  @Output() closeAction = new EventEmitter<boolean>();
+
   newTodo: iTodo = {
     title: '',
     completed: false,
-    groupId: 'BNa7XXnCtJhLs8qSR1Oa',
+    groupId: this._groupService.currentGroup,
     id: ''
   };
 
   constructor(
     private _modalController: ModalController,
-    protected readonly _firestoreService: FirestoreService
+    protected readonly _firestoreService: FirestoreService,
+    protected readonly _groupService: GroupService
   ) { }
 
   ngOnInit() {}
-
-  protected cancel(): void {
-    this._modalController.dismiss(null, 'cancel');
-
-  }
-  
-  protected confirm(): void {
-    this.createTodo();
-    this._modalController.dismiss(null, 'cancel');
-  }
 
   protected createTodo(): void {
     if (this.newTodo.title.trim() === '') {
@@ -52,5 +47,14 @@ export class NewTodoModalComponent  implements OnInit {
       completed: false
     });
     this.newTodo.title = '';
+  }
+
+  protected cancel(): void {
+    this._modalController.dismiss(null, 'cancel');
+  }
+  
+  protected confirm(): void {
+    this.createTodo();
+    this._modalController.dismiss(null, 'cancel');
   }
 }

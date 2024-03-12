@@ -8,7 +8,7 @@
           <ion-icon name="calendar" size="small"></ion-icon>
           <ion-label>Calendar</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="newTodo" disabled="true">
+      <ion-tab-button (click)="isOpen = true" [disabled]="!this._authService.loggedUser">
           <ion-icon name="add-circle" size="small"></ion-icon>
           <ion-label>New Todo</ion-label>
       </ion-tab-button>
@@ -22,3 +22,5 @@
       </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
+
+<app-new-todo-modal [isOpen]="isOpen" (closeAction)="isOpen = false"></app-new-todo-modal>

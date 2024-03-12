@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { PageHeaderComponent } from '../page-header/page-header.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-search-modal',

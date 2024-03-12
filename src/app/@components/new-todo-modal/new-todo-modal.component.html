@@ -1,4 +1,4 @@
-<ion-modal trigger="open-modal">
+<ion-modal [isOpen]="isOpen" (ionModalDidDismiss)="closeAction.emit(true)">
   <ng-template>
     <ion-header>
       <ion-toolbar>

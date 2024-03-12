@@ -22,7 +22,7 @@ export const routes: Routes = [
     { 
         path: 'dashboard', 
         loadComponent: ()=> DashboardPageComponent,
-        canActivate: [authenticationGuard],
+        canActivate: [authenticationGuard]
     },
     { 
         path: 'calendar', 
@@ -39,14 +39,25 @@ export const routes: Routes = [
         loadComponent: ()=> MembersPageComponent,
         canActivate: [authenticationGuard]
     },
+    { 
+        path: 'profile', 
+        canActivate: [authenticationGuard],
+        children: [
+            {
+                path: '',
+                loadComponent: ()=> ProfilePageComponent,
+                canActivate: [authenticationGuard]
+            },
+            { 
+                path: ':id', 
+                loadComponent: ()=> ProfilePageComponent,
+                canActivate: [authenticationGuard]
+            },
+        ]
+    },
     {
         path: 'settings',
         loadComponent: ()=> SettingsPageComponent,
-        canActivate: [authenticationGuard]
-    },
-    { 
-        path: 'profile', 
-        loadComponent: ()=> ProfilePageComponent,
         canActivate: [authenticationGuard]
     },
     {

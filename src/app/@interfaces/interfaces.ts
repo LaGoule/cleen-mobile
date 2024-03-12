@@ -26,7 +26,7 @@ export interface iGroup {
 }
 
 export interface iUser {
-    id: string;
+    uid: string;
     displayName: string;
     email: string;
     photoUrl: string;

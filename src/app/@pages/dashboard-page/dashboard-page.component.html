@@ -1,7 +1,7 @@
 <app-page-header [title]="this.title"></app-page-header>
 <ion-content>
 
-    <ion-item>
+    <!-- <ion-item>
         <ion-label>
             Bienvenue
         </ion-label>
@@ -13,11 +13,20 @@
                 <ion-icon name="filter" slot="icon-only"></ion-icon>
             </ion-button>
         </ion-item-group>
-    </ion-item>
-
-    <ion-button id="open-modal">Ajouter une tâche</ion-button>
-    <app-todo-list></app-todo-list>
+    </ion-item> -->
     
+    <app-todo-list></app-todo-list>
+
+    <!-- <ion-fab 
+        slot="fixed" vertical="bottom" horizontal="end"
+        class="ion-padding"
+        >
+        <ion-fab-button id="open-modal">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab> -->
+
     <app-new-todo-modal></app-new-todo-modal>
+
 </ion-content>
 

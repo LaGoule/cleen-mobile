@@ -1,7 +1,17 @@
-<app-page-header [title]="this.title"></app-page-header>
+<app-page-header [title]="this.title" backUrl="/members"></app-page-header>
 <ion-content class="ion-padding">
-  <ion-back-button defaultHref="/members"></ion-back-button>
   <!-- Content goes here -->
+  <ion-card *ngIf="this.user">
+    <ion-card-header>
+      <ion-avatar>
+        <img [alt]="this.user.displayName+'\'s Avatar'" [src]="this.user.photoURL" />
+      </ion-avatar>
+      <ion-title>{{ this.user.displayName }}</ion-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>{{ this.user.email }}</ion-text>
+    </ion-card-content>
+  </ion-card>
   
   <ion-button (click)="logout()" color="danger" expand="block">
     Logout

@@ -1,19 +1,30 @@
 <ion-header>
   <ion-toolbar mode="md" color="primary">
-    <ion-buttons 
-      *ngIf="backUrl !== ''" 
-      slot="start"
-    >
-      <ion-back-button [defaultHref]="backUrl"></ion-back-button>
+    <ion-buttons slot="start">
+      <ion-back-button 
+        *ngIf="backUrl !== ''; else historyBackButton" 
+        [defaultHref]="backUrl"
+      ></ion-back-button>
+      <ng-template #historyBackButton>
+        <ion-back-button 
+        ></ion-back-button>
+      </ng-template>
     </ion-buttons>
 
     <ion-title>{{ title }}</ion-title>
 
-      <ion-chip slot="end" class="avatarsStack" fill="clear">
-        <ion-avatar>
-          <img alt="username" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        </ion-avatar>
-      </ion-chip>
-
+    <ion-chip 
+      *ngIf="this.user"
+      (click)="navigateToProfile()"
+      slot="end" class="avatarsStack" fill="clear"
+    >
+      <ion-label color="light">{{ this.user.displayName }}</ion-label>
+      <ion-avatar >
+        <img 
+          [alt]="this.user.displayName+'\'s Avatar'" 
+          [src]="this.user.photoURL" 
+        />
+      </ion-avatar>
+    </ion-chip>
   </ion-toolbar>
 </ion-header>

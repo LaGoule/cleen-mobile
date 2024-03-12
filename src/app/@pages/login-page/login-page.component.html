@@ -5,8 +5,13 @@
 
     <!-- <ion-button (click)="loginWithGoogle()">Se connecter avec Google</ion-button> -->
 
-    <ion-button (click)="testLogin()" color="primary" expand="block">
+    <!-- <ion-button (click)="testLogin()" color="primary" expand="block">
         Se connecter
+        <ion-icon name="log-in-outline" slot="end"></ion-icon>
+    </ion-button> -->
+
+    <ion-button (click)="this._authService.loginWithGoogle()" color="primary" expand="block">
+        Se connecter avec Google
         <ion-icon name="log-in-outline" slot="end"></ion-icon>
     </ion-button>
 </ion-content>

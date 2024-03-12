@@ -5,6 +5,7 @@ import { PageHeaderComponent } from '../../@components/page-header/page-header.c
 import { addIcons } from 'ionicons';
 import { logInOutline } from 'ionicons/icons';
 addIcons({ logInOutline });
+import { AuthenticationService } from '../../@services/authentication.service';
 
 @Component({
   selector: 'app-login-page',
@@ -22,14 +23,16 @@ export class LoginPageComponent {
 
   constructor(
     private readonly _router: Router,
+    protected readonly _authService: AuthenticationService
   ) {}
 
-  protected loginWithGoogle(){
-    console.log('Login with Google');
-  }
+  // protected loginWithGoogle(){
+  //   console.log('Login with Google');
+  // }
 
-  testLogin(){
-    this._router.navigate(['/']);
-    console.log('Test Login');
-  }
+  // testLogin(){
+  //   this._router.navigate(['/']);
+  //   // console.log('Test Login');
+  //   this._authService.login();
+  // }
 }

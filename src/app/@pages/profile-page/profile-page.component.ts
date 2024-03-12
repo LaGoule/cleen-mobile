@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { logOutOutline } from 'ionicons/icons';
 addIcons({ logOutOutline });
+import { AuthenticationService } from '../../@services/authentication.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-page',
@@ -12,22 +14,27 @@ addIcons({ logOutOutline });
   styleUrls: ['./profile-page.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     IonicModule,
     PageHeaderComponent,
   ],
 })
 export class ProfilePageComponent  implements OnInit {
   title: string = "Profile";
+  user!: any;
 
   constructor(
+    private readonly _authService: AuthenticationService,
     private readonly _router: Router,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = this._authService.loggedUser;
+  }
 
   logout() {
     // alert('Logout now');
-    this._router.navigate(['/login']);
+    this._authService.logout();
   }
 
 }

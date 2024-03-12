@@ -1,27 +1,44 @@
-<!-- <ion-item class="ion-no-padding ion-margin-bottom">
-    <ion-input 
-        [(ngModel)]="newTodoTitle"
-        label="Créer une tâche"
-        label-placement="floating"
-        clearInput="true"
-        placeholder="Faire la lessive"
-        class="ion-padding-left"
-    ></ion-input>
-    <ion-button shape="round" slot="end" (click)="createTodo()">
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-    </ion-button>
-</ion-item> -->
-
-<ion-list *ngIf="todoList$|async as todoList">
+<ion-list 
+    *ngIf="todoList$|async as todoList; else loading"
+>
     <ion-list-header class="ion-no-padding">
         <ion-note class="ion-padding-start">Aujourd'hui</ion-note>
     </ion-list-header>
     <app-todo-item 
-        *ngFor="let todo of todoList$|async" [todo]="todo"
-        (remove)="_firestoreService.removeTodoItem($event)"
-        (toggle)="_firestoreService.toggleTodoItem($event)"
+        *ngFor="let todo of todoList$ | async | sortTodos" [todo]="todo"
+        (click)="handleClickOnTodoItem($event, todo)"
     ></app-todo-item>
 </ion-list>
+
+<ion-action-sheet
+  [isOpen]="isActionSheetOpen"
+  [header]="this.currentEditedTodo?.title"
+  [buttons]="actionSheetButtons"
+  (didDismiss)="toggleActionSheet(false)"
+  (ionActionSheetDidDismiss)="handleItemAction($event)"
+></ion-action-sheet>
+
+<!-- Skeleton -->
+<ng-template #loading>
+    <ion-list>
+        <ion-list-header >
+            <ion-skeleton-text animated="true" style="width:30%"></ion-skeleton-text>
+        </ion-list-header>
+        <ion-item *ngFor="let i of [].constructor(4)">
+            <ion-grid class="ion-no-padding">
+                <ion-row class="ion-align-items-center">
+                    <ion-col class="ion-padding" size="2">
+                        <ion-checkbox disabled="true">
+                        </ion-checkbox>
+                    </ion-col>
+                    <ion-col>
+                        <ion-skeleton-text animated="true" style="width:70%"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+    </ion-list>
+</ng-template>
 
 
 
