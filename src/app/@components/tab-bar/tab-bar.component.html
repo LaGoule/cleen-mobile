@@ -1,22 +1,22 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="dashboard">
+      <ion-tab-button tab="dashboard" [disabled]="!this._authService.activeUser">
           <ion-icon name="list" size="small"></ion-icon>
           <ion-label>Dashboard</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="calendar">
+      <ion-tab-button tab="calendar" [disabled]="!this._authService.activeUser">
           <ion-icon name="calendar" size="small"></ion-icon>
           <ion-label>Calendar</ion-label>
       </ion-tab-button>
-      <ion-tab-button (click)="isOpen = true" [disabled]="!this._authService.loggedUser">
+      <ion-tab-button (click)="isOpen = true" [disabled]="!this._authService.activeUser">
           <ion-icon name="add-circle" size="small"></ion-icon>
           <ion-label>New Todo</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="members">
+      <ion-tab-button tab="members" [disabled]="!this._authService.activeUser">
           <ion-icon name="people" size="small"></ion-icon>
           <ion-label>Members</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="settings">
+      <ion-tab-button tab="settings" [disabled]="!this._authService.activeUser">
           <ion-icon name="settings" size="small"></ion-icon>
           <ion-label>Settings</ion-label>
       </ion-tab-button>

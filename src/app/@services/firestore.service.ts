@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { 
   Firestore, QueryConstraint, 
   collection, collectionData, 
-  query, where, doc, addDoc, updateDoc, deleteDoc 
+  query, where, doc, addDoc, setDoc, updateDoc, deleteDoc 
 } from '@angular/fire/firestore';
 import { Observable, firstValueFrom, map } from 'rxjs';
-import { iTodo, iUser } from '../@interfaces/interfaces';
+import { iGroup, iTodo, iUser } from '../@interfaces/interfaces';
+import { GroupService } from './group.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,9 @@ import { iTodo, iUser } from '../@interfaces/interfaces';
 export class FirestoreService {
 
   constructor(
-    private readonly _firestore: Firestore
+    private readonly _firestore: Firestore,
   ) {}
-
-
+  
   //-----------------------------------TODOS-----------------------------------
 
   /**
@@ -40,10 +40,6 @@ export class FirestoreService {
    * @param newTodo Todo object to add
    */
   async addTodoItem(newTodo: Omit<iTodo, "id">): Promise<void> {
-    // const newTodoWithId = {...newTodo, id: Math.random().toString(36).substring(2)};
-    // const todosCollection = collection(this._firestore, `todos`);
-    // await addDoc(todosCollection, newTodoWithId);
-
     const todosCollection = collection(this._firestore, `todos`);
     await addDoc(todosCollection, newTodo);
   }
@@ -55,7 +51,7 @@ export class FirestoreService {
   async updateTodoItem(updatedTodo: iTodo): Promise<void> {
     const todoReference = doc(this._firestore, `todos/` + updatedTodo.id);
     await updateDoc(todoReference, {completed: updatedTodo.completed});
-    // STOCKER LAST UPDATE USER, DATE, ETC
+    // TODO: STOCKER LAST UPDATE USER, DATE, ETC
   }
 
   /**
@@ -79,11 +75,11 @@ export class FirestoreService {
   //-----------------------------------USERS-----------------------------------
 
   /**
-   * 
+   * Method to get a user from the database with the UID
    * @param uid 
    * @returns 
    */
-  async loadUser(uid: string) {
+  async getUser(uid: string) {
     // Référence to the collection
     const usersCollection = collection(this._firestore, `users`);
     // Query to get the todos
@@ -91,18 +87,52 @@ export class FirestoreService {
     // Build the query with contraints
     const q = query(usersCollection, byUid);
     // Get the datas as observable with custom ID field
-    const data$ = collectionData(q, {idField: 'id'});
-    return await firstValueFrom((data$ as Observable<iUser[]>)
-      .pipe(map(users => users[0])));
+    const data$ = collectionData(q);
+    const result = await firstValueFrom((data$ as Observable<iUser[]>).pipe(map(users => users[0])));
+    return result;
   };
 
   /**
-   * 
+   * Method to add a new user to the database
    * @param newUser 
    */
-  async addUser(newUser: iUser){
-    const usersCollection = collection(this._firestore, `users`);
-    await addDoc(usersCollection, newUser);
+  async addUser(newUser: iUser, customId: string){
+    const usersCollection = doc(this._firestore, `users`, customId);
+    await setDoc(usersCollection, newUser);
   }
+
+  /**
+   * Method to update a user in the database
+   * @param uid User ID to update
+   * @param updatedUser User object to update
+   */
+  async updateUser(uid: string, updatedUser: Partial<iUser>): Promise<void> {
+    const userReference = doc(this._firestore, `users/` + uid);
+    await updateDoc(userReference, updatedUser);
+  }
+
+  //-----------------------------------GROUPS-----------------------------------
+
+  /**
+   * Method to add a new group to the database
+   * @param newGroup 
+   */
+  async addGroup(newGroup: iGroup){
+    const groupsCollection = collection(this._firestore, `groups`);
+    const docRef = await addDoc(groupsCollection, newGroup);
+    newGroup.id = docRef.id;
+    await updateDoc(docRef, { ...newGroup } as { [x: string]: any; });
+    return newGroup.id;
+  }
+
+  // TODO: Create method to update group
+  /**
+   * Method to update a group in the database
+   * @param updatedGroup 
+   */
+  // async updateGroup(groupId: string, updatedGroup: iGroup){
+  //   const groupReference = doc(this._firestore, `groups/` + groupId);
+  //   await updateDoc(groupReference, updatedGroup);
+  // }
 
 }

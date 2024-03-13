@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authenticationGuard } from './@guards/authentication.guard';
+import { isAuthGuard } from './@guards/is-auth.guard';
 import { DashboardPageComponent } from './@pages/dashboard-page/dashboard-page.component';
 import { LoginPageComponent } from './@pages/login-page/login-page.component';
 import { CalendarPageComponent } from './@pages/calendar-page/calendar-page.component';
@@ -16,54 +16,59 @@ export const routes: Routes = [
         pathMatch: 'full' 
     },
     { 
+        path: 'home', 
+        redirectTo: 'dashboard', 
+        pathMatch: 'full' 
+    },
+    { 
         path: 'login', 
         loadComponent: ()=> LoginPageComponent 
     },
     { 
         path: 'dashboard', 
         loadComponent: ()=> DashboardPageComponent,
-        canActivate: [authenticationGuard]
+        canActivate: [isAuthGuard]
     },
     { 
         path: 'calendar', 
         loadComponent: ()=> CalendarPageComponent,
-        canActivate: [authenticationGuard]
+        canActivate: [isAuthGuard]
     },
     {
         path: 'newtodo',
         loadComponent: ()=> NewTodoModalComponent,
-        canActivate: [authenticationGuard]
+        canActivate: [isAuthGuard]
     },
     { 
         path: 'members', 
         loadComponent: ()=> MembersPageComponent,
-        canActivate: [authenticationGuard]
+        canActivate: [isAuthGuard]
     },
     { 
         path: 'profile', 
-        canActivate: [authenticationGuard],
+        canActivate: [isAuthGuard],
         children: [
             {
                 path: '',
                 loadComponent: ()=> ProfilePageComponent,
-                canActivate: [authenticationGuard]
+                canActivate: [isAuthGuard]
             },
             { 
                 path: ':id', 
                 loadComponent: ()=> ProfilePageComponent,
-                canActivate: [authenticationGuard]
+                canActivate: [isAuthGuard]
             },
         ]
     },
     {
         path: 'settings',
         loadComponent: ()=> SettingsPageComponent,
-        canActivate: [authenticationGuard]
+        canActivate: [isAuthGuard]
     },
     {
         path: 'search',
         loadComponent: ()=> SearchModalComponent,
-        canActivate: [authenticationGuard]
+        canActivate: [isAuthGuard]
     },
     { 
         path: '**', 

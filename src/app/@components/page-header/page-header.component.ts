@@ -29,8 +29,8 @@ export class PageHeaderComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this._authService.loggedUser) {
-      this.user = this._authService.loggedUser;
+    if (this._authService.activeUser) {
+      this.user = this._authService.activeUser;
     }
   }
 

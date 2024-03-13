@@ -21,27 +21,28 @@ export interface iTodo {
 export interface iGroup {
     id: string;
     displayName: string;
-    admin: iUser;
-    users: iUser[];
+    admins: string[];
+    users: string[];
 }
 
 export interface iUser {
     uid: string;
-    displayName: string;
     email: string;
-    photoUrl: string;
+    displayName: string;
+    photoURL?: string;
 
-    groups: {
-        admin: iGroup[];
-        member: iGroup[];
+    groups?: {
+        active?: string;
+        admin?: string[];
+        member?: string[];
     };
 
-    todos: {
+    todos?: {
         pending: iTodo[];
         completed: iTodo[];
     };
 
-    points: {
+    points?: {
         total: number;
         dailyTotal: number;
         weaklyTotal: number;

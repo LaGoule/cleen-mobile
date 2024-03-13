@@ -29,7 +29,7 @@ export class ProfilePageComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.user = this._authService.loggedUser;
+    this.user = this._authService.activeUser;
   }
 
   logout() {

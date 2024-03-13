@@ -27,7 +27,7 @@ addIcons({ add, search, filter});
 })
 export class TodoListComponent {
   protected todoList$: Observable<iTodo[]> = 
-    this._firestoreService.loadTodos(this._groupService.currentGroup);
+    this._firestoreService.loadTodos(this._groupService.activeGroup);
   protected isActionSheetOpen: boolean = false;
   protected currentEditedTodo!: iTodo | null;
   protected actionSheetButtons = [

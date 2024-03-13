@@ -24,7 +24,7 @@ export class NewTodoModalComponent  implements OnInit {
   newTodo: iTodo = {
     title: '',
     completed: false,
-    groupId: this._groupService.currentGroup,
+    groupId: this._groupService.activeGroup,
     id: ''
   };
 
@@ -42,7 +42,7 @@ export class NewTodoModalComponent  implements OnInit {
       return;
     }
     this._firestoreService.addTodoItem({
-      groupId: this.newTodo.groupId,
+      groupId: this._groupService.activeGroup,
       title: this.newTodo.title,
       completed: false
     });
