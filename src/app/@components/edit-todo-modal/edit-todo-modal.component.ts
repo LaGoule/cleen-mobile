@@ -1,28 +1,28 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { ModalController } from '@ionic/angular/standalone';
-import { OverlayEventDetail } from '@ionic/core';
-import { FirestoreService } from '../../@services/firestore.service';
-import { GroupService } from '../../@services/group.service';
 import { FormsModule } from '@angular/forms';
 import { iTodo } from '../../@interfaces/interfaces';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular/standalone';
+import { EventEmitter, Input, Output } from '@angular/core';
+import { FirestoreService } from '../../@services/firestore.service';
+import { GroupService } from '../../@services/group.service';
 
 @Component({
-  selector: 'app-new-todo-modal',
-  templateUrl: './new-todo-modal.component.html',
-  styleUrls: ['./new-todo-modal.component.scss'],
+  selector: 'app-edit-todo-modal',
+  templateUrl: './edit-todo-modal.component.html',
+  styleUrls: ['./edit-todo-modal.component.scss'],
   standalone: true,
   imports: [
     IonicModule,
     FormsModule,
   ]
 })
-export class NewTodoModalComponent  implements OnInit {
+export class EditTodoModalComponent  implements OnInit {
   @Input() isOpen!: boolean;
   @Output() closeAction = new EventEmitter<boolean>();
 
-  newTodo: iTodo = {
+  updatedTodo: iTodo = {
     title: '',
     completed: false,
     groupId: this._groupService.activeGroup,
@@ -38,19 +38,17 @@ export class NewTodoModalComponent  implements OnInit {
 
   ngOnInit() {}
 
-  protected createTodo(): void {
+  protected updateTodo(): void {
     if (this.newTodo.title.trim() === '') {
       this.newTodo.title = '';
       return;
     }
-    const newTodo = {
-      id: '', // Will be set by the database
+    this._firestoreService.addTodoItem({
       groupId: this._groupService.activeGroup,
       title: this.newTodo.title,
-      completed: false,
-    }
-    this._firestoreService.addTodoItem(newTodo);
-    this.resetForm();
+      completed: false
+    });
+    this.newTodo.title = '';
   }
 
   protected cancel(): void {
@@ -62,14 +60,5 @@ export class NewTodoModalComponent  implements OnInit {
     this.createTodo();
     this._modalController.dismiss(null, 'cancel');
     this._router.navigate(['/']);
-  }
-
-  private resetForm(): void {
-    this.newTodo = {
-      title: '',
-      completed: false,
-      groupId: this._groupService.activeGroup,
-      id: ''
-    };
   }
 }

@@ -12,6 +12,7 @@ export interface iTodo {
     assignatedUsers?: iUser[];
     completedBy?: iUser[];
     
+    creationDate?: Date;
     dueDate?: Date;
     completionDate?: Date;
     repeat?: boolean;
@@ -23,6 +24,7 @@ export interface iGroup {
     displayName: string;
     admins: string[];
     users: string[];
+    creationDate?: Date;
 }
 
 export interface iUser {
@@ -30,6 +32,7 @@ export interface iUser {
     email: string;
     displayName: string;
     photoURL?: string;
+    inscriptionDate?: Date;
 
     groups?: {
         active?: string;

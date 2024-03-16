@@ -3,8 +3,8 @@ import { RouterModule, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { PageHeaderComponent } from '../../@components/page-header/page-header.component';
 import { addIcons } from 'ionicons';
-import { logInOutline } from 'ionicons/icons';
-addIcons({ logInOutline });
+import { logInOutline, sparkles } from 'ionicons/icons';
+addIcons({ logInOutline, sparkles });
 import { AuthenticationService } from '../../@services/authentication.service';
 
 @Component({

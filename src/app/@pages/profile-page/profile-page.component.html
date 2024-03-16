@@ -1,19 +1,11 @@
 <app-page-header [title]="this.title" backUrl="/members"></app-page-header>
-<ion-content class="ion-padding">
-  <!-- Content goes here -->
-  <ion-card *ngIf="this.user">
-    <ion-card-header>
-      <ion-avatar>
-        <img [alt]="this.user.displayName+'\'s Avatar'" [src]="this.user.photoURL" />
-      </ion-avatar>
-      <ion-title>{{ this.user.displayName }}</ion-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-text>{{ this.user.email }}</ion-text>
-    </ion-card-content>
-  </ion-card>
-  
-  <ion-button (click)="logout()" color="danger" expand="block">
+<ion-content>
+  <div *ngIf="this.user">
+    <app-member-item [member]="this.user"></app-member-item>
+  </div>
+
+
+  <ion-button (click)="logout()" color="danger" expand="block" class="">
     Logout
     <ion-icon name="log-out-outline" slot="end"></ion-icon>
   </ion-button>

@@ -8,6 +8,8 @@ import { SettingsPageComponent } from './@pages/settings-page/settings-page.comp
 import { ProfilePageComponent } from './@pages/profile-page/profile-page.component';
 import { NewTodoModalComponent } from './@components/new-todo-modal/new-todo-modal.component';
 import { SearchModalComponent } from './@components/search-modal/search-modal.component';
+import { isInGroupGuard } from './@guards/is-in-group.guard';
+import { groupResolver } from './@resolvers/group.resolver';
 
 export const routes: Routes = [
     { 
@@ -27,7 +29,8 @@ export const routes: Routes = [
     { 
         path: 'dashboard', 
         loadComponent: ()=> DashboardPageComponent,
-        canActivate: [isAuthGuard]
+        canActivate: [isAuthGuard],
+        resolve: { groupResolver },
     },
     { 
         path: 'calendar', 
@@ -42,7 +45,10 @@ export const routes: Routes = [
     { 
         path: 'members', 
         loadComponent: ()=> MembersPageComponent,
-        canActivate: [isAuthGuard]
+        canActivate: [
+            isAuthGuard, 
+            isInGroupGuard,
+        ]
     },
     { 
         path: 'profile', 

@@ -1,0 +1,19 @@
+<ion-grid class="ion-no-padding ion-padding-left ion-margin-top">
+  <ion-row class="ion-padding">
+      <ion-col size="8" class="ion-align-self-center">
+          <ion-title class="ion-text-start ion-no-padding ion-no-margin">
+              <h2>Bienvenue {{ this.user.displayName }}</h2>
+          </ion-title>
+      </ion-col>
+      <ion-col size="4">
+          <ion-buttons class="ion-justify-content-end">
+              <ion-button (click)="navigateToSearch()" color="secondary">
+                  <ion-icon name="search" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button color="secondary">
+                  <ion-icon name="filter" slot="icon-only"></ion-icon>
+              </ion-button>
+          </ion-buttons>
+      </ion-col>
+  </ion-row>
+</ion-grid>

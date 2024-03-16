@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { iGroup, iUser } from '../@interfaces/interfaces';
 import { FirestoreService } from './firestore.service';
 import { AuthenticationService } from './authentication.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,11 @@ export class GroupService {
       this.createAndSetGroup(activeUser);
       return;
     }
-  
     // If user has no active group, update the user to add groups object
     if (!activeUser.groups.active) {
       await this.initializeUserGroups(activeUser);
       return;
     }
-  
     // If user has an active group, set service group to user's active group
     this.setActiveGroup(activeUser, activeUser.groups.active);
   }
@@ -43,9 +42,9 @@ export class GroupService {
       users: [activeUser.uid]
     };
     const groupId = await this.createGroup(newGroup); // Get the new group ID
-    this.setUserAsGroupMember(activeUser, groupId);
-    this.setUserAsGroupAdmin(activeUser, groupId);
-    this.setActiveGroup(activeUser, groupId);
+    await this.setUserAsGroupMember(activeUser, groupId);
+    // await this.setUserAsGroupAdmin(activeUser, groupId);
+    await this.setActiveGroup(activeUser, groupId);
     console.log('Group created, User is now in a group');
   }
   
@@ -56,22 +55,25 @@ export class GroupService {
     });
   }
 
-  setActiveGroup(user: iUser, groupId: string): void {
-    this._firestoreService.updateUser(user.uid, {
-      groups: { active: groupId }
-    });
+  async setActiveGroup(activeUser: iUser, groupId: string) {
     this.activeGroup = groupId;
+    const currentUser = activeUser;
+    await this._firestoreService.updateUser(currentUser.uid, {
+      groups: { ...currentUser.groups, active: groupId }
+    });
     console.log('Group set in service: ', this.activeGroup);
   }
 
-  setUserAsGroupAdmin(user: iUser, groupId: string): void {
-    this._firestoreService.updateUser(user.uid, {
-      groups: { admin: [groupId] }
-    });
-  }
+  // async setUserAsGroupAdmin(user: iUser, groupId: string) {
+  //   const currentUser = await this._firestoreService.getUser(user.uid);
+  //   const updatedUserAdminGroups = [...currentUser.groups.admin, groupId];
+  //   await this._firestoreService.updateUser(user.uid, {
+  //     groups: { ...currentUser.groups, admin: updatedUserAdminGroups }
+  //   });
+  // }
 
-  setUserAsGroupMember(user: iUser, groupId: string): void {
-    this._firestoreService.updateUser(user.uid, {
+  async setUserAsGroupMember(user: iUser, groupId: string) {
+    await this._firestoreService.updateUser(user.uid, {
       groups: { member: [groupId] }
     });
   }

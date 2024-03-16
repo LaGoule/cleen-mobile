@@ -1,6 +1,28 @@
 <app-page-header [title]="this.title"></app-page-header>
 <ion-content>
 
-  <ion-title>{{ this.title }}</ion-title>
-  <!-- Content goes here -->
+  <div *ngIf="this.activeGroup; else loading">
+    <ion-card class="ion-padding">
+      <ion-card-title class="ion-text-center">
+        {{ this.activeGroup.displayName }}
+      </ion-card-title>
+      <ion-card-subtitle class="ion-text-center">
+        {{ this.activeGroup.id }}
+      </ion-card-subtitle>
+    </ion-card>
+
+    <ion-list *ngIf="this.members">
+      <app-member-item
+        *ngFor="let member of this.members"
+        [member]="member"
+        (click)="this.handleMemberClick(member)"
+      ></app-member-item>
+    </ion-list>
+  </div>
+
+  <ng-template #loading>
+    <ion-card class="ion-padding ion-text-center">
+      <ion-spinner class="ion-justify-self-center"></ion-spinner>
+    </ion-card>
+  </ng-template>
 </ion-content>

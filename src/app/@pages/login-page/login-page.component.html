@@ -1,17 +1,28 @@
 <app-page-header [title]="title"></app-page-header>
-<ion-content class="ion-padding">
-    <h2>Bienvenu</h2>
-    <p>Veuillez vous connecter.</p>
-
-    <!-- <ion-button (click)="loginWithGoogle()">Se connecter avec Google</ion-button> -->
-
-    <!-- <ion-button (click)="testLogin()" color="primary" expand="block">
-        Se connecter
-        <ion-icon name="log-in-outline" slot="end"></ion-icon>
-    </ion-button> -->
-
-    <ion-button (click)="this._authService.loginWithGoogle()" color="primary" expand="block">
-        Se connecter avec Google
-        <ion-icon name="log-in-outline" slot="end"></ion-icon>
-    </ion-button>
+<ion-content class="ion-padding" color="light">
+    <ion-card>
+        <ion-card-header>
+            <ion-card-subtitle>
+                <p>Connectez-vous pour accéder à votre liste de tâches.</p>
+            </ion-card-subtitle>
+            <ion-card-title>
+                <ion-grid>
+                    <ion-row>
+                        <!-- <ion-col size="2" class="ion-align-self-center">
+                            <ion-icon size="small" name="sparkles"></ion-icon>
+                        </ion-col> -->
+                        <ion-col size="12" class="ion-align-self-center">
+                            <h2>Cleen</h2>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-button (click)="this._authService.loginWithGoogle()" color="primary" expand="block">
+                Se connecter avec Google
+                <ion-icon name="log-in-outline" slot="end"></ion-icon>
+            </ion-button>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

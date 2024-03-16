@@ -7,6 +7,7 @@ import { logOutOutline } from 'ionicons/icons';
 addIcons({ logOutOutline });
 import { AuthenticationService } from '../../@services/authentication.service';
 import { CommonModule } from '@angular/common';
+import { MemberItemComponent } from '../../@components/member-item/member-item.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     IonicModule,
     PageHeaderComponent,
+    MemberItemComponent,
   ],
 })
 export class ProfilePageComponent  implements OnInit {

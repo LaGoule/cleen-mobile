@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Query } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,9 @@ import { SortTodosPipe } from '../../@pipes/sort-todos.pipe';
 import { iTodo } from '../../@interfaces/interfaces';
 import { addIcons } from 'ionicons'
 import { add, search, filter } from 'ionicons/icons';
+import { QueryConstraint } from '@angular/fire/firestore';
 addIcons({ add, search, filter});
+import { ItemReorderEventDetail } from '@ionic/core';
 
 @Component({
   selector: 'app-todo-list',
@@ -26,10 +28,14 @@ addIcons({ add, search, filter});
   styleUrl: './todo-list.component.scss'
 })
 export class TodoListComponent {
-  protected todoList$: Observable<iTodo[]> = 
-    this._firestoreService.loadTodos(this._groupService.activeGroup);
-  protected isActionSheetOpen: boolean = false;
+  @Input() listTitle!: string;
+  @Input() queryConstraint!: QueryConstraint;
+
+  protected activeGroup: string = '';
+  protected todoList$: Observable<iTodo[]> 
+    = this._firestoreService.loadTodos(this._groupService.activeGroup, this.queryConstraint);
   protected currentEditedTodo!: iTodo | null;
+  protected isActionSheetOpen: boolean = false;
   protected actionSheetButtons = [
     {
       text: 'Edit',
@@ -58,7 +64,10 @@ export class TodoListComponent {
     protected readonly _groupService: GroupService,
   ){}
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    this.activeGroup = this._groupService.activeGroup;
+    this.todoList$ = this._firestoreService.loadTodos(this.activeGroup, this.queryConstraint);
+  }
 
   toggleActionSheet(toggle: boolean, todo?: iTodo): void {
     this.isActionSheetOpen = toggle;
@@ -93,5 +102,16 @@ export class TodoListComponent {
       default:
         break;
     }
+  }
+
+
+  handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+    // The `from` and `to` properties contain the index of the item
+    // when the drag started and ended, respectively
+    console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
+    // Finish the reorder and position the item in the DOM based on
+    // where the gesture ended. This method can also be called directly
+    // by the reorder group
+    ev.detail.complete();
   }
 }

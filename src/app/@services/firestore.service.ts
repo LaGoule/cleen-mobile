@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { 
   Firestore, QueryConstraint, 
   collection, collectionData, 
-  query, where, doc, addDoc, setDoc, updateDoc, deleteDoc 
+  query, where, doc, addDoc, setDoc, updateDoc, deleteDoc, orderBy
 } from '@angular/fire/firestore';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { iGroup, iTodo, iUser } from '../@interfaces/interfaces';
@@ -23,15 +23,25 @@ export class FirestoreService {
    * Method to load all the todos from the database with the group ID
    * @param id Group ID
    */
-  loadTodos(groupId: string): Observable<iTodo[]> {
+  loadTodos(groupId: string, constraint: QueryConstraint): Observable<iTodo[]> {
+    // console.log('constraint: ', constraint);
+
     // Référence to the collection
     const todosCollection = collection(this._firestore, `todos`);
     // Query to get the todos
+
+    // const qc = [];
     const byGroup: QueryConstraint = where('groupId', '==', groupId);
+    // qc.push(byGroup);
+    // qc.push(constraint);
+
     // Build the query with contraints
     const q = query(todosCollection, byGroup);
+    // const q = query(todosCollection, byGroup, constraint);
+    
     // Get the datas as observable with custom ID field
     const data$ = collectionData(q, {idField: 'id'});
+    // console.log(data$);
     return data$ as Observable<iTodo[]>;
   };
 
@@ -39,9 +49,13 @@ export class FirestoreService {
    * Method to add a new todo to the database
    * @param newTodo Todo object to add
    */
-  async addTodoItem(newTodo: Omit<iTodo, "id">): Promise<void> {
+  async addTodoItem(newTodo: iTodo): Promise<string> {
     const todosCollection = collection(this._firestore, `todos`);
-    await addDoc(todosCollection, newTodo);
+    const docRef = await addDoc(todosCollection, newTodo);
+    newTodo.id = docRef.id;
+    console.log('newTodo: ', newTodo);
+    await updateDoc(docRef, { ...newTodo } as { [x: string]: any; });
+    return newTodo.id;
   }
 
   /**
@@ -49,8 +63,8 @@ export class FirestoreService {
    * @param updatedTodo Todo object to update
    */
   async updateTodoItem(updatedTodo: iTodo): Promise<void> {
-    const todoReference = doc(this._firestore, `todos/` + updatedTodo.id);
-    await updateDoc(todoReference, {completed: updatedTodo.completed});
+    const docRef = doc(this._firestore, `todos/` + updatedTodo.id);
+    await updateDoc(docRef, { ...updatedTodo } as { [x: string]: any; });
     // TODO: STOCKER LAST UPDATE USER, DATE, ETC
   }
 
@@ -125,14 +139,47 @@ export class FirestoreService {
     return newGroup.id;
   }
 
-  // TODO: Create method to update group
   /**
    * Method to update a group in the database
    * @param updatedGroup 
    */
-  // async updateGroup(groupId: string, updatedGroup: iGroup){
-  //   const groupReference = doc(this._firestore, `groups/` + groupId);
-  //   await updateDoc(groupReference, updatedGroup);
-  // }
+  async updateGroup(groupId: string, updatedGroup: iGroup){
+    const groupReference = doc(this._firestore, `groups/` + groupId);
+    await updateDoc(groupReference, { ...updatedGroup } as { [x: string]: any; });
+  }
+
+  /**
+   * Method to get a group from the database with the ID
+   * @param groupId 
+   * @returns 
+   */
+  async getGroup(groupId: string) {
+    // Référence to the collection
+    const groupsCollection = collection(this._firestore, `groups`);
+    // Query to get the todos
+    const byId: QueryConstraint = where('id', '==', groupId);
+    // Build the query with contraints
+    const q = query(groupsCollection, byId);
+    // Get the datas as observable with custom ID field
+    const data$ = collectionData(q);
+    const result = await firstValueFrom((data$ as Observable<iGroup[]>).pipe(map(groups => groups[0])));
+    return result;
+  }
+
+  /**
+   * Method to get all the members of a group from the database
+   * @returns 
+   */
+  async getUsers(groupId: string) {
+    // Référence to the collection
+    const usersCollection = collection(this._firestore, `users`);
+    // Query to get the todos
+    const byGroup: QueryConstraint = where('groups.member', 'array-contains', groupId);    
+    // Build the query with contraints
+    const q = query(usersCollection, byGroup);
+    // Get the datas as observable with custom ID field
+    const data$ = collectionData(q);
+    return firstValueFrom((data$ as Observable<iUser[]>));
+  }
 
 }

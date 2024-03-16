@@ -1,6 +1,11 @@
 :host{
+    ion-item{
+        border-bottom: 1px solid #f0f0f0;
+    }
+    ion-row{
+        padding: 8px 0;
+    }
     .completed{
         text-decoration: line-through;
-        opacity: 50%;
     }
 }

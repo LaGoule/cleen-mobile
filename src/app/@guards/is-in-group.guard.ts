@@ -8,8 +8,8 @@ export const isInGroupGuard: CanActivateFn = (route, state) => {
   const _router = inject(Router);
 
   if (!_groupService.activeGroup || _groupService.activeGroup === '') {
-    console.log('Guard: User not in a group, redirecting to ...');
-    _router.navigate(['/login']);
+    console.log('Guard: User not in a group, waiting ...');
+    // _router.navigate(['/login']);
     return false;
   } else {
     return true;

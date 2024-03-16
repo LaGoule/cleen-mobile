@@ -1,13 +1,33 @@
 <ion-list 
-    *ngIf="todoList$|async as todoList; else loading"
+    *ngIf="this.todoList$|async as todoList; else loading"
+    class="ion-margin"
+    inset="true"
+    lines="full"
 >
-    <ion-list-header class="ion-no-padding">
-        <ion-note class="ion-padding-start">Aujourd'hui</ion-note>
-    </ion-list-header>
-    <app-todo-item 
-        *ngFor="let todo of todoList$ | async | sortTodos" [todo]="todo"
-        (click)="handleClickOnTodoItem($event, todo)"
-    ></app-todo-item>
+    <ion-item-group>
+        <ion-item-divider mode="md">
+        <ion-label>{{ listTitle }}</ion-label>
+        </ion-item-divider>
+
+    <!-- <ion-list-header class="ion-no-padding">
+        <ion-note class="ion-padding-start">{{ listTitle }}</ion-note>
+    </ion-list-header> -->
+
+    <!-- <div *ngIf="(todoList$ | async)!.length < 1; else noTodos"> -->   
+        <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+            <app-todo-item
+                *ngFor="let todo of todoList$|async|sortTodos" [todo]="todo"
+                (click)="handleClickOnTodoItem($event, todo)"
+            ></app-todo-item>
+        </ion-reorder-group>
+    <!-- </div> -->
+    </ion-item-group>
+
+    <ng-template #noTodos>
+        <ion-note class="ion-text-center ion-margin-bottom">
+            <h4>This list is empty...</h4>
+        </ion-note>
+    </ng-template>
 </ion-list>
 
 <ion-action-sheet

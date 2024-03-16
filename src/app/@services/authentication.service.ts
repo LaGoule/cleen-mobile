@@ -28,6 +28,10 @@ export class AuthenticationService {
     private readonly _groupService: GroupService,
   ) { }
 
+  /**
+   * @description
+   * Login with Google
+   */
   async loginWithGoogle() {
     // 1 Connect user to app
     await signInWithPopup(this._auth, this.googleProvider).then(result => {

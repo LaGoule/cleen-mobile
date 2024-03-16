@@ -35,6 +35,6 @@ export class PageHeaderComponent  implements OnInit {
   }
 
   navigateToProfile() {
-    this._router.navigate(['/profile']);
+    this._router.navigate(['/profile', this.user.uid]);
   }
 }
