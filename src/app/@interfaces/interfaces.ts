@@ -3,20 +3,19 @@ export interface iTodo {
     id: string;
     groupId: string;
     completed?: boolean;
-    points?: number;
-    
-    color?: string;
-    priority?: number;
-    description?: string;
+
+    points: number;
+    color: string;
+    priority: number;
+    description: string;
     
     assignatedUsers?: iUser[];
     completedBy?: iUser[];
     
-    creationDate?: Date;
+    creationDate: Date;
     dueDate?: Date;
     completionDate?: Date;
-    repeat?: boolean;
-    repeatInterval?: string;
+    repeat: string;
 }
 
 export interface iGroup {
@@ -45,7 +44,7 @@ export interface iUser {
         completed: iTodo[];
     };
 
-    points?: {
+    points: {
         total: number;
         dailyTotal: number;
         weaklyTotal: number;

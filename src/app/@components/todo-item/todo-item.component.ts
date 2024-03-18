@@ -3,9 +3,9 @@ import { Component, Input } from '@angular/core';
 import { iTodo } from '../../@interfaces/interfaces';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons'
-import { trash } from 'ionicons/icons';
 import { FirestoreService } from '../../@services/firestore.service';
-addIcons({ trash });
+import { trash, star } from 'ionicons/icons';
+addIcons({ trash, star });
 
 @Component({
   selector: 'app-todo-item',

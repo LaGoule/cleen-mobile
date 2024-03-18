@@ -2,7 +2,16 @@
     ion-col{
         overflow: hidden;
     }
+    ion-item{
+        padding: 0 20px;
+    }
     ion-note{
+        white-space: nowrap;
+        overflow: hidden;
         text-overflow: ellipsis;
+        
+    }
+    ion-avatar{
+        padding: 5px;
     }
 }

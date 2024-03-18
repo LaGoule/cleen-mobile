@@ -12,15 +12,88 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-item>
+
+      <ion-item class="ion-no-padding">
         <ion-input
           [(ngModel)]="this.newTodo.title"
           label="Nom de la tâche"
-          labelPlacement="stacked"
-          type="text"
+          label-placement="floating"
           placeholder="Faire la lessive"
         ></ion-input>
       </ion-item>
+
+      <ion-item class="ion-no-padding">
+        <ion-select 
+          [(ngModel)]="this.newTodo.points"
+          interface="popover" 
+          label="Nombre de points"
+          placeholder="0"
+        >
+          <ion-select-option value="0" ngDefaultControl>0</ion-select-option>
+          <ion-select-option value="25">25</ion-select-option>
+          <ion-select-option value="50">50</ion-select-option>
+          <ion-select-option value="75">75</ion-select-option>
+          <ion-select-option value="100">100</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="ion-no-padding">
+        <ion-textarea
+          [(ngModel)]="this.newTodo.description"
+          label="Description"
+          label-placement="floating"
+          placeholder="Mettre le linge dans la machine, lancer la machine, étendre le linge..."
+        ></ion-textarea>
+      </ion-item>
+
+      <ion-item class="ion-no-padding">
+        <ion-select 
+          mode="md"
+          [(ngModel)]="this.newTodo.color"
+          interface="popover" 
+          label="Color" 
+          placeholder="No color"
+        >
+          <ion-select-option value="" ngDefaultControl>No color</ion-select-option>
+          <ion-select-option value="red">Red</ion-select-option>
+          <ion-select-option value="green">Green</ion-select-option>
+          <ion-select-option value="blue">Blue</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="ion-no-padding">
+        <ion-select 
+          [(ngModel)]="this.newTodo.priority"
+          interface="popover" 
+          label="Priority" 
+          placeholder="Default"
+        >
+          <ion-select-option value="2">High</ion-select-option>
+          <ion-select-option value="1" ngDefaultControl>Default</ion-select-option>
+          <ion-select-option value="0">Low</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- <ion-item class="ion-no-padding">
+        <ion-datetime-button
+          id="due-date"
+        ></ion-datetime-button>
+      </ion-item> -->
+
+      <ion-item class="ion-no-padding">
+        <ion-select 
+          [(ngModel)]="this.newTodo.repeat"
+          interface="popover" 
+          label="Repeat" 
+          placeholder="Once"
+        >
+          <ion-select-option value="once" ngDefaultControl>Once</ion-select-option>
+          <ion-select-option value="daily">Daily</ion-select-option>
+          <ion-select-option value="weekly">Weekly</ion-select-option>
+          <ion-select-option value="monthly">Monthly</ion-select-option>
+        </ion-select>
+      </ion-item>
+
     </ion-content>
   </ng-template>
 </ion-modal>

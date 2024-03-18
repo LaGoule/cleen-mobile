@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular/standalone';
 import { EventEmitter, Input, Output } from '@angular/core';
 import { FirestoreService } from '../../@services/firestore.service';
-import { GroupService } from '../../@services/group.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-todo-modal',
@@ -14,41 +14,35 @@ import { GroupService } from '../../@services/group.service';
   styleUrls: ['./edit-todo-modal.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     IonicModule,
     FormsModule,
   ]
 })
 export class EditTodoModalComponent  implements OnInit {
-  @Input() isOpen!: boolean;
+  // @Input() isOpen!: boolean;
+  // @Input() todoToUpdate!: iTodo; // a retirer
+  @Input() todo!: iTodo;
   @Output() closeAction = new EventEmitter<boolean>();
 
-  updatedTodo: iTodo = {
-    title: '',
-    completed: false,
-    groupId: this._groupService.activeGroup,
-    id: ''
-  };
+  protected editedTodo: iTodo = this.todo;
 
   constructor(
     private _modalController: ModalController,
     private readonly _router: Router,
     protected readonly _firestoreService: FirestoreService,
-    protected readonly _groupService: GroupService
-  ) { }
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   protected updateTodo(): void {
-    if (this.newTodo.title.trim() === '') {
-      this.newTodo.title = '';
+    if (this.editedTodo.title.trim() === '') {
+      this.editedTodo.title = '';
       return;
     }
-    this._firestoreService.addTodoItem({
-      groupId: this._groupService.activeGroup,
-      title: this.newTodo.title,
-      completed: false
-    });
-    this.newTodo.title = '';
+    this._firestoreService.updateTodoItem(this.editedTodo);
+    this.editedTodo.title = '';
   }
 
   protected cancel(): void {
@@ -57,7 +51,7 @@ export class EditTodoModalComponent  implements OnInit {
   }
   
   protected confirm(): void {
-    this.createTodo();
+    this.updateTodo();
     this._modalController.dismiss(null, 'cancel');
     this._router.navigate(['/']);
   }

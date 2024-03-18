@@ -2,25 +2,28 @@
     [ngClass]="todo.completed ? 'completed' : ''"
 >
     <ion-grid class="ion-no-padding">
-        <ion-row class="ion-justify-content-start ion-align-item-center">
-            <ion-col size="2" class="ion-align-item-center">
+        <ion-row class="ion-justify-content-space-between ion-align-item-center">
+            <ion-col size="auto" class="ion-align-item-center">
                 <ion-checkbox 
                     (ionChange)="handleToggle()"
                     [checked]="todo.completed"
                     mode="ios"
                 ></ion-checkbox>
             </ion-col>
-            <ion-col size="9" class="ion-align-self-center">
+            <ion-col size="auto" class="ion-align-self-center col-title">
                 <ion-text>
                     {{ this.todo.title }}
                 </ion-text>
             </ion-col>
-            <!-- <ion-col size="1">
-                <ion-badge class="pointsTag" *ngIf="this.todo.points">{{ this.todo.points }} ⭑</ion-badge>
-            </ion-col> -->
-            <ion-col size="1" class="">
-                <ion-reorder class="ion-text-end"></ion-reorder>
+            <ion-col size="auto" class="ion-align-self-center">
+                <ion-chip color="warning" class="pointsTag" class="ion-align-items-center">
+                    <ion-text>{{ this.todo.points }}</ion-text>
+                    <ion-icon name="star" size="small"></ion-icon>
+                </ion-chip>
             </ion-col>
+            <!-- <ion-col size="1" class="ion-align-self-center ion-justify-self-end">
+                <ion-reorder></ion-reorder>
+            </ion-col> -->
         </ion-row>
     </ion-grid>
 </ion-item>

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Firestore } from '@angular/fire/firestore';
 import { iUser } from '../@interfaces/interfaces';
-import { Auth, user, GoogleAuthProvider } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider } from '@angular/fire/auth';
 import { signInWithPopup } from '@angular/fire/auth';
-import { Observable, firstValueFrom } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { FirestoreService } from './firestore.service';
 import { GroupService } from './group.service';
 
@@ -14,10 +11,6 @@ import { GroupService } from './group.service';
 })
 export class AuthenticationService {
   private googleProvider = new GoogleAuthProvider();
-  // public isAuth: Observable<boolean> = user(this._auth).pipe(
-  //   tap(async _ => {}),
-  //   map(user => user !== null),
-  // );
   private _authUser!: any;
   public activeUser!: any;
 
@@ -35,16 +28,14 @@ export class AuthenticationService {
   async loginWithGoogle() {
     // 1 Connect user to app
     await signInWithPopup(this._auth, this.googleProvider).then(result => {
-      this._authUser = result.user as iUser;
+      this._authUser = result.user;
     });
     // 2 Check if logged user exists in database
     const user = await this._firestoreService.getUser(this._authUser.uid);
     if(user && user.uid === this._authUser.uid){
-      // console.log('User signin: ', this._authUser.uid);
     } else {
       // 3 If not, set user in database
       this.createNewUser(this._authUser);
-      // console.log('User not found, creating new user');
     }
     // 4 Set user in service
     await this.setUser();
@@ -68,6 +59,17 @@ export class AuthenticationService {
       email: loggedUser.email,
       displayName: loggedUser.displayName,
       photoURL: loggedUser.photoURL,
+      groups: {
+        active: '',
+        admin: [],
+        member: [],
+      },
+      points: {
+        total: 0,
+        dailyTotal: 0,
+        weaklyTotal: 0,
+        monthlyTotal: 0,
+      },
     }, loggedUser.uid);
     console.log('User created: ', this._authUser.uid);
   }
@@ -76,7 +78,7 @@ export class AuthenticationService {
     const userFound = await this._firestoreService.getUser(this._authUser.uid);
     if(this.activeUser != userFound) {
       this.activeUser = userFound;
-      console.log('User set in service: ', this.activeUser.uid);
+      // console.log('User set in service: ', this.activeUser.uid);
     }
   }
 

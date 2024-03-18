@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class TabBarComponent  implements OnInit {
-  public isOpen: boolean = false;
+  public isNewTodoOpen: boolean = false;
 
   constructor(
     protected readonly _authService: AuthenticationService,

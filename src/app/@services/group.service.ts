@@ -61,7 +61,7 @@ export class GroupService {
     await this._firestoreService.updateUser(currentUser.uid, {
       groups: { ...currentUser.groups, active: groupId }
     });
-    console.log('Group set in service: ', this.activeGroup);
+    // console.log('Group set in service: ', this.activeGroup);
   }
 
   // async setUserAsGroupAdmin(user: iUser, groupId: string) {

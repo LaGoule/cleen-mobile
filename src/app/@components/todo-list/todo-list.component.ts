@@ -13,6 +13,8 @@ import { add, search, filter } from 'ionicons/icons';
 import { QueryConstraint } from '@angular/fire/firestore';
 addIcons({ add, search, filter});
 import { ItemReorderEventDetail } from '@ionic/core';
+import { EditTodoModalComponent } from '../edit-todo-modal/edit-todo-modal.component';
+import { ModalController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-todo-list',
@@ -23,6 +25,7 @@ import { ItemReorderEventDetail } from '@ionic/core';
     FormsModule,
     TodoItemComponent,
     SortTodosPipe,
+    EditTodoModalComponent,
   ],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss'
@@ -34,7 +37,7 @@ export class TodoListComponent {
   protected activeGroup: string = '';
   protected todoList$: Observable<iTodo[]> 
     = this._firestoreService.loadTodos(this._groupService.activeGroup, this.queryConstraint);
-  protected currentEditedTodo!: iTodo | null;
+  protected currentEditedTodo!: iTodo;
   protected isActionSheetOpen: boolean = false;
   protected actionSheetButtons = [
     {
@@ -58,10 +61,12 @@ export class TodoListComponent {
       },
     },
   ];
+  protected isEditTodoOpen: boolean = false;
 
   constructor(
     protected readonly _firestoreService: FirestoreService,
     protected readonly _groupService: GroupService,
+    protected readonly _modalController: ModalController,
   ){}
 
   async ngOnInit(): Promise<void> {
@@ -90,8 +95,9 @@ export class TodoListComponent {
     }
     switch (action) {
       case 'edit':
-        console.log('Edit todo:', this.currentEditedTodo.id);
-        // this._firestoreService.removeTodoItem(this.currentEditedTodoId) TODO: EDIT
+        // console.log('Edit todo:', this.currentEditedTodo.id);
+        // this.isEditTodoOpen = true;
+        this.openEditTodoModal(this.currentEditedTodo);
         break;
       case 'delete':
         console.log('Delete todo:', this.currentEditedTodo.id);
@@ -104,6 +110,16 @@ export class TodoListComponent {
     }
   }
 
+  async openEditTodoModal(todo: iTodo) {
+    const modal = await this._modalController.create({
+      component: EditTodoModalComponent,
+      componentProps: {
+        'isOpen': true,
+        'todo': todo
+      }
+    });
+    return await modal.present();
+  }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     // The `from` and `to` properties contain the index of the item
