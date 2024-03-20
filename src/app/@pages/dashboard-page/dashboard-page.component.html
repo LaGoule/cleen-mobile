@@ -5,15 +5,13 @@
     
     <app-todo-list 
         [listTitle]="'À Faire'"
-        [queryConstraint]="this.constraints[0]"
+        [constraintIndex]="0"
     ></app-todo-list>
 
-    <!-- <app-todo-list 
+    <app-todo-list 
         [listTitle]="'Complétées'"
-        [queryConstraint]="this.constraints[1]"
-    ></app-todo-list> -->
-
-    <app-new-todo-modal></app-new-todo-modal>
-
+        [constraintIndex]="1"
+    ></app-todo-list>
+    
 </ion-content>
 

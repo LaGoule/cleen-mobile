@@ -3,8 +3,8 @@ import { RouterModule, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { PageHeaderComponent } from '../../@components/page-header/page-header.component';
 import { addIcons } from 'ionicons';
-import { logInOutline, sparkles } from 'ionicons/icons';
-addIcons({ logInOutline, sparkles });
+import { logoGoogle, sparkles, informationCircleOutline } from 'ionicons/icons';
+addIcons({ logoGoogle, sparkles, informationCircleOutline });
 import { AuthenticationService } from '../../@services/authentication.service';
 
 @Component({
@@ -25,14 +25,4 @@ export class LoginPageComponent {
     private readonly _router: Router,
     protected readonly _authService: AuthenticationService
   ) {}
-
-  // protected loginWithGoogle(){
-  //   console.log('Login with Google');
-  // }
-
-  // testLogin(){
-  //   this._router.navigate(['/']);
-  //   // console.log('Test Login');
-  //   this._authService.login();
-  // }
 }

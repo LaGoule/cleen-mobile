@@ -13,6 +13,11 @@ import { GroupService } from './group.service';
 })
 export class FirestoreService {
 
+  protected constraints: QueryConstraint[] = [
+    where('completed', '==', false),
+    where('completed', '==', true),
+  ]
+
   constructor(
     private readonly _firestore: Firestore,
   ) {}
@@ -23,25 +28,15 @@ export class FirestoreService {
    * Method to load all the todos from the database with the group ID
    * @param id Group ID
    */
-  loadTodos(groupId: string, constraint: QueryConstraint): Observable<iTodo[]> {
-    // console.log('constraint: ', constraint);
-
+  loadTodos(groupId: string, constraintIndex: number): Observable<iTodo[]> {
     // Référence to the collection
     const todosCollection = collection(this._firestore, `todos`);
     // Query to get the todos
-
-    // const qc = [];
     const byGroup: QueryConstraint = where('groupId', '==', groupId);
-    // qc.push(byGroup);
-    // qc.push(constraint);
-
     // Build the query with contraints
-    const q = query(todosCollection, byGroup);
-    // const q = query(todosCollection, byGroup, constraint);
-    
+    const q = query(todosCollection, byGroup, this.constraints[constraintIndex]);
     // Get the datas as observable with custom ID field
-    const data$ = collectionData(q, {idField: 'id'});
-    // console.log(data$);
+    const data$ = collectionData(q, {idField: 'id'}); 
     return data$ as Observable<iTodo[]>;
   };
 
@@ -53,7 +48,6 @@ export class FirestoreService {
     const todosCollection = collection(this._firestore, `todos`);
     const docRef = await addDoc(todosCollection, newTodo);
     newTodo.id = docRef.id;
-    console.log('newTodo: ', newTodo);
     await updateDoc(docRef, { ...newTodo } as { [x: string]: any; });
     return newTodo.id;
   }
@@ -65,7 +59,6 @@ export class FirestoreService {
   async updateTodoItem(updatedTodo: iTodo): Promise<void> {
     const docRef = doc(this._firestore, `todos/` + updatedTodo.id);
     await updateDoc(docRef, { ...updatedTodo } as { [x: string]: any; });
-    // TODO: STOCKER LAST UPDATE USER, DATE, ETC
   }
 
   /**
@@ -136,6 +129,7 @@ export class FirestoreService {
     const docRef = await addDoc(groupsCollection, newGroup);
     newGroup.id = docRef.id;
     await updateDoc(docRef, { ...newGroup } as { [x: string]: any; });
+    console.log('Group created: ', newGroup.id);
     return newGroup.id;
   }
 

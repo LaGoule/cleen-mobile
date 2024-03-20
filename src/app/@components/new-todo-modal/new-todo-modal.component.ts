@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular/standalone';
 import { FirestoreService } from '../../@services/firestore.service';
 import { GroupService } from '../../@services/group.service';
 import { FormsModule } from '@angular/forms';
-import { iTodo } from '../../@interfaces/interfaces';
+import { iTodo, iUser } from '../../@interfaces/interfaces';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +20,6 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class NewTodoModalComponent  implements OnInit {
-  @Input() isOpen!: boolean;
   @Output() closeAction = new EventEmitter<boolean>();
 
   newTodo: iTodo = {
@@ -34,12 +33,11 @@ export class NewTodoModalComponent  implements OnInit {
     points: 0,
     priority: 1,
     description: '',
-    // dueDate: new Date(),
-    // assignatedUsers: [],
-    // completedBy: [],
-    // completionDate: new Date(),
+    dueDate: new Date(),
     repeat: 'once',
+    assignatedUsers: [],
   };
+  protected groupMembers!: iUser[] | undefined;
 
   constructor(
     private _modalController: ModalController,
@@ -48,7 +46,9 @@ export class NewTodoModalComponent  implements OnInit {
     protected readonly _groupService: GroupService
   ) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.groupMembers = await this._groupService.getGroupMembers(this._groupService.activeGroup);
+  }
 
   protected createTodo(): void {
     if (this.newTodo.title.trim() === '') {
@@ -67,11 +67,9 @@ export class NewTodoModalComponent  implements OnInit {
       points: this.newTodo.points,
       priority: this.newTodo.priority,
       description: this.newTodo.description,
-      // dueDate: new Date(),
-      // assignatedUsers: [],
-      // completedBy: [],
-      // completionDate: new Date(),
+      dueDate: this.newTodo.dueDate,
       repeat: this.newTodo.repeat,
+      assignatedUsers: this.newTodo.assignatedUsers,
     }
     this._firestoreService.addTodoItem(newTodo);
     this.resetForm();
@@ -100,11 +98,12 @@ export class NewTodoModalComponent  implements OnInit {
       points: 0,
       priority: 1,
       description: '',
-      // dueDate: new Date(),
-      // assignatedUsers: [],
-      // completedBy: [],
-      // completionDate: new Date(),
       repeat: 'once',
+      assignatedUsers: [],
     };
+  }
+
+  onDueDateChange(event: any) {
+    this.newTodo.dueDate = new Date(event.detail.value);
   }
 }

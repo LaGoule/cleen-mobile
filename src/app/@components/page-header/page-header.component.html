@@ -12,6 +12,8 @@
     </ion-buttons>
 
     <ion-title>{{ title }}</ion-title>
+    <!-- <ion-title *ngIf="!this.user">{{ title }}</ion-title>
+    <ion-title *ngIf="this.user">{{ this.user.activeGroup }}</ion-title> -->
 
     <ion-chip 
       *ngIf="this.user"

@@ -1,11 +1,18 @@
-<app-page-header [title]="this.title" backUrl="/members"></app-page-header>
-<ion-content color="light">
+<app-page-header [title]="this.title" backUrl="/group"></app-page-header>
+<ion-content color="light" class="ion-padding">
   <div *ngIf="this.user">
     <app-member-item [member]="this.user"></app-member-item>
   </div>
 
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider mode="md">
+      <ion-label>Todos history</ion-label>
+      </ion-item-divider>
+    </ion-item-group>
+  </ion-list>
 
-  <ion-button (click)="logout()" color="danger" expand="block" class="">
+  <ion-button (click)="logout()" color="danger" expand="block">
     Logout
     <ion-icon name="log-out-outline" slot="end"></ion-icon>
   </ion-button>

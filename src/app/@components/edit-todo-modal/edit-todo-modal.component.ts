@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { iTodo } from '../../@interfaces/interfaces';
+import { iTodo, iUser } from '../../@interfaces/interfaces';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular/standalone';
 import { EventEmitter, Input, Output } from '@angular/core';
 import { FirestoreService } from '../../@services/firestore.service';
 import { CommonModule } from '@angular/common';
+import { GroupService } from '../../@services/group.service';
 
 @Component({
   selector: 'app-edit-todo-modal',
@@ -20,20 +21,22 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class EditTodoModalComponent  implements OnInit {
-  // @Input() isOpen!: boolean;
-  // @Input() todoToUpdate!: iTodo; // a retirer
   @Input() todo!: iTodo;
   @Output() closeAction = new EventEmitter<boolean>();
 
-  protected editedTodo: iTodo = this.todo;
+  protected editedTodo!: iTodo;
+  protected groupMembers!: iUser[] | undefined;
 
   constructor(
     private _modalController: ModalController,
     private readonly _router: Router,
     protected readonly _firestoreService: FirestoreService,
+    protected readonly _groupService: GroupService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.editedTodo = this.todo;
+    this.groupMembers = await this._groupService.getGroupMembers(this._groupService.activeGroup);
   }
 
   protected updateTodo(): void {
@@ -54,5 +57,9 @@ export class EditTodoModalComponent  implements OnInit {
     this.updateTodo();
     this._modalController.dismiss(null, 'cancel');
     this._router.navigate(['/']);
+  }
+
+  onDueDateChange(event: any) {
+    this.editedTodo.dueDate = new Date(event.detail.value);
   }
 }

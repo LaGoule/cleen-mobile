@@ -6,14 +6,28 @@
         position: relative;
         padding: 8px 0;
     }
+    ion-avatar{
+        width:25px;
+        height: 25px;
+        outline: 1px solid var(--ion-color-success);
+    }
     .col-title{
-        width: calc(100% - 20px);
-        margin: 0 10px;
+        padding: 0 10px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
     .completed{
         text-decoration: line-through;
+        color: #aaa;
+    }
+    .users{
+        text-align: right;
+    }
+    .pointsTag{
+        outline: 1px solid var(--ion-color-warning);
+        outline-offset: -1px;
+        margin: 0;
+        padding: 0 10px;
     }
 }

@@ -28,10 +28,6 @@ export class DashboardPageComponent {
 
   protected title: string = "Dashboard";
   protected message: string = '';
-  protected constraints: QueryConstraint[] = [
-    where('completed', '==', false),
-    where('completed', '==', true),
-  ]
 
   constructor(
     private readonly _router: Router,

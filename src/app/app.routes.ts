@@ -3,7 +3,7 @@ import { isAuthGuard } from './@guards/is-auth.guard';
 import { DashboardPageComponent } from './@pages/dashboard-page/dashboard-page.component';
 import { LoginPageComponent } from './@pages/login-page/login-page.component';
 import { CalendarPageComponent } from './@pages/calendar-page/calendar-page.component';
-import { MembersPageComponent } from './@pages/members-page/members-page.component';
+import { GroupPageComponent } from './@pages/group-page/group-page.component';
 import { SettingsPageComponent } from './@pages/settings-page/settings-page.component';
 import { ProfilePageComponent } from './@pages/profile-page/profile-page.component';
 import { NewTodoModalComponent } from './@components/new-todo-modal/new-todo-modal.component';
@@ -37,18 +37,14 @@ export const routes: Routes = [
         loadComponent: ()=> CalendarPageComponent,
         canActivate: [isAuthGuard]
     },
-    {
-        path: 'newtodo',
-        loadComponent: ()=> NewTodoModalComponent,
-        canActivate: [isAuthGuard]
-    },
     { 
-        path: 'members', 
-        loadComponent: ()=> MembersPageComponent,
+        path: 'group', 
+        loadComponent: ()=> GroupPageComponent,
         canActivate: [
             isAuthGuard, 
-            isInGroupGuard,
-        ]
+            // isInGroupGuard,
+        ],
+        resolve: { groupResolver },
     },
     { 
         path: 'profile', 

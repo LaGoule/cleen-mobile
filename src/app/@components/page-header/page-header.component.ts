@@ -6,6 +6,7 @@ import { addIcons } from 'ionicons';
 import { arrowBack } from 'ionicons/icons';
 addIcons({ arrowBack });
 import { AuthenticationService } from '../../@services/authentication.service';
+import { GroupService } from '../../@services/group.service';
 
 @Component({
   selector: 'app-page-header',
@@ -19,18 +20,21 @@ import { AuthenticationService } from '../../@services/authentication.service';
   ],
 })
 export class PageHeaderComponent  implements OnInit {
-  @Input() title: string = "Page Header";
+  @Input() title: string = "";
   @Input() backUrl: string = "";
   user!: any;
+  activeGroup!: any;
 
   constructor(
     private readonly _router: Router,
     protected readonly _authService: AuthenticationService,
+    protected readonly _groupService: GroupService
   ) { }
 
   ngOnInit() {
     if (this._authService.activeUser) {
       this.user = this._authService.activeUser;
+      this.activeGroup = this._groupService.activeGroup;
     }
   }
 

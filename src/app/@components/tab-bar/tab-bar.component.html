@@ -8,19 +8,19 @@
           <ion-icon name="calendar" size="small"></ion-icon>
           <ion-label>Calendar</ion-label>
       </ion-tab-button>
-      <ion-tab-button (click)="isNewTodoOpen = true" [disabled]="!this._authService.activeUser">
+      <ion-tab-button (click)="openNewTodoModal()" [disabled]="!this._authService.activeUser">
           <ion-icon name="add-circle" size="small"></ion-icon>
           <ion-label>New Todo</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="members" [disabled]="!this._authService.activeUser">
+      <ion-tab-button tab="group" [disabled]="!this._authService.activeUser">
           <ion-icon name="people" size="small"></ion-icon>
-          <ion-label>Members</ion-label>
+          <ion-label>Group</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="settings" [disabled]="!this._authService.activeUser">
+      <ion-tab-button tab="settings" [disabled]="true">
           <ion-icon name="settings" size="small"></ion-icon>
           <ion-label>Settings</ion-label>
       </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
 
-<app-new-todo-modal [isOpen]="isNewTodoOpen" (closeAction)="isNewTodoOpen = false"></app-new-todo-modal>
+<!-- <app-new-todo-modal [isOpen]="isNewTodoOpen" (closeAction)="isNewTodoOpen = false"></app-new-todo-modal> -->

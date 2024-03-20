@@ -35,7 +35,7 @@ export class AuthenticationService {
     if(user && user.uid === this._authUser.uid){
     } else {
       // 3 If not, set user in database
-      this.createNewUser(this._authUser);
+      await this.createNewUser(this._authUser);
     }
     // 4 Set user in service
     await this.setUser();
@@ -51,6 +51,7 @@ export class AuthenticationService {
     this.activeUser = null;
     this.redirectUser('/login');
     console.log('User signed out!');
+    window.location.reload();
   }
 
   async createNewUser(loggedUser: iUser) {

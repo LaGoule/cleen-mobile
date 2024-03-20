@@ -4,8 +4,9 @@ import { iTodo } from '../../@interfaces/interfaces';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons'
 import { FirestoreService } from '../../@services/firestore.service';
-import { trash, star } from 'ionicons/icons';
-addIcons({ trash, star });
+import { ProfilePicturePipe } from '../../@pipes/profile-picture.pipe';
+import { ribbon, reorderThree } from 'ionicons/icons';
+addIcons({ ribbon, reorderThree });
 
 @Component({
   selector: 'app-todo-item',
@@ -13,6 +14,7 @@ addIcons({ trash, star });
   imports: [
     CommonModule,
     IonicModule,
+    ProfilePicturePipe,
   ],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss',

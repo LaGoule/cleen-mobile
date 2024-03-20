@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 import { MemberItemComponent } from '../../@components/member-item/member-item.component';
 
 @Component({
-  selector: 'app-members-page',
-  templateUrl: './members-page.component.html',
-  styleUrls: ['./members-page.component.scss'],
+  selector: 'app-group-page',
+  templateUrl: './group-page.component.html',
+  styleUrls: ['./group-page.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -20,8 +20,8 @@ import { MemberItemComponent } from '../../@components/member-item/member-item.c
     MemberItemComponent,
   ],
 })
-export class MembersPageComponent  implements OnInit {
-  title: string = "Members";
+export class GroupPageComponent  implements OnInit {
+  title: string = "Group";
   activeGroup!: iGroup;
   members!: iUser[];
 
@@ -33,8 +33,8 @@ export class MembersPageComponent  implements OnInit {
 
   async ngOnInit() {
     this.activeGroup = await this._firestoreService.getGroup(this._groupService.activeGroup);
+    console.log('activeGroup (group page): ', this.activeGroup);
     this.members = await this._firestoreService.getUsers(this.activeGroup.id);
-    console.log(this.members);
   }
 
   handleMemberClick(member: iUser) {

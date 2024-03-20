@@ -7,6 +7,7 @@ import { NewTodoModalComponent } from '../new-todo-modal/new-todo-modal.componen
 addIcons({ addCircle, list, calendar, people, settings, });
 import { AuthenticationService } from '../../@services/authentication.service';
 import { CommonModule } from '@angular/common';
+import { ModalController } from '@ionic/angular/standalone';
 
 
 @Component({
@@ -18,16 +19,26 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     IonicModule,
     RouterOutlet,
-    NewTodoModalComponent
+    NewTodoModalComponent,
   ],
 })
 export class TabBarComponent  implements OnInit {
-  public isNewTodoOpen: boolean = false;
 
   constructor(
     protected readonly _authService: AuthenticationService,
+    private _modalController: ModalController,
   ) {}
 
   ngOnInit() {}
+
+  async openNewTodoModal() {
+    const modal = await this._modalController.create({
+      component: NewTodoModalComponent,
+      componentProps: {
+        'isOpen': true,
+      }
+    });
+    return await modal.present();
+  }
 
 }

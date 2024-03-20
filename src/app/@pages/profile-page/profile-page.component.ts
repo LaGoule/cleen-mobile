@@ -27,7 +27,6 @@ export class ProfilePageComponent  implements OnInit {
 
   constructor(
     private readonly _authService: AuthenticationService,
-    private readonly _router: Router,
   ) { }
 
   ngOnInit() {
@@ -35,7 +34,6 @@ export class ProfilePageComponent  implements OnInit {
   }
 
   logout() {
-    // alert('Logout now');
     this._authService.logout();
   }
 

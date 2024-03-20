@@ -32,12 +32,11 @@ import { ModalController } from '@ionic/angular/standalone';
 })
 export class TodoListComponent {
   @Input() listTitle!: string;
-  @Input() queryConstraint!: QueryConstraint;
+  @Input() constraintIndex!: number;
 
   protected activeGroup: string = '';
-  protected todoList$: Observable<iTodo[]> 
-    = this._firestoreService.loadTodos(this._groupService.activeGroup, this.queryConstraint);
-  protected currentEditedTodo!: iTodo;
+  protected todoList$!: Observable<iTodo[]>;
+  protected currentEditedTodo!: iTodo | null;
   protected isActionSheetOpen: boolean = false;
   protected actionSheetButtons = [
     {
@@ -71,7 +70,7 @@ export class TodoListComponent {
 
   async ngOnInit(): Promise<void> {
     this.activeGroup = this._groupService.activeGroup;
-    this.todoList$ = this._firestoreService.loadTodos(this.activeGroup, this.queryConstraint);
+    this.todoList$ = this._firestoreService.loadTodos(this.activeGroup, this.constraintIndex);
   }
 
   toggleActionSheet(toggle: boolean, todo?: iTodo): void {
@@ -86,6 +85,7 @@ export class TodoListComponent {
       return;
     }
     this.toggleActionSheet(!this.isActionSheetOpen, todo);
+    // this._firestoreService.updateTodoItem(todo.id, {completedBy: this._groupService.activeUser});
   }
 
   handleItemAction(event: any) {
@@ -95,8 +95,6 @@ export class TodoListComponent {
     }
     switch (action) {
       case 'edit':
-        // console.log('Edit todo:', this.currentEditedTodo.id);
-        // this.isEditTodoOpen = true;
         this.openEditTodoModal(this.currentEditedTodo);
         break;
       case 'delete':

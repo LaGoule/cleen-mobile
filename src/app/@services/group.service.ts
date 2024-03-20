@@ -24,58 +24,63 @@ export class GroupService {
       this.createAndSetGroup(activeUser);
       return;
     }
-    // If user has no active group, update the user to add groups object
-    if (!activeUser.groups.active) {
-      await this.initializeUserGroups(activeUser);
+    // If user has no active group
+    else if (!activeUser.groups.active) {
+      console.log('User has no active group,');
+      if (activeUser.groups.member?.length === 0) {
+        console.log('User has isnt part of any group, let\'s create one!');
+        await this.createAndSetGroup(activeUser);
+      } else if (activeUser.groups.member) {
+        console.log('User is part of groups, but none is active, setting first group as active');
+        this.setActiveGroup(activeUser, activeUser.groups.member[0]);
+      }
       return;
     }
-    // If user has an active group, set service group to user's active group
-    this.setActiveGroup(activeUser, activeUser.groups.active);
+    // If user has active group, set it as active
+    else {
+      console.log('User has active group, setting it as active');
+      this.activeGroup = activeUser.groups.active;
+    }
+    console.log('service activeGroup: ', this.activeGroup);
   }
   
   async createAndSetGroup(activeUser: iUser) {
-    console.log('User has no group, let\'s create one!');
     const newGroup: iGroup = {
       id: '', // This will be replaced by the actual ID
-      displayName: 'Home',
+      displayName: 'My first group',
       admins: [activeUser.uid],
       users: [activeUser.uid]
     };
     const groupId = await this.createGroup(newGroup); // Get the new group ID
     await this.setUserAsGroupMember(activeUser, groupId);
-    // await this.setUserAsGroupAdmin(activeUser, groupId);
-    await this.setActiveGroup(activeUser, groupId);
     console.log('Group created, User is now in a group');
   }
   
   async initializeUserGroups(activeUser: iUser) {
-    console.log('User has no active group');
     await this._firestoreService.updateUser(activeUser.uid, {
       groups: { active: '', admin: [], member: [] }
     });
+    console.log('User groups initialized to empty.');
   }
 
   async setActiveGroup(activeUser: iUser, groupId: string) {
-    this.activeGroup = groupId;
     const currentUser = activeUser;
+    const userGroups = currentUser.groups || {};
     await this._firestoreService.updateUser(currentUser.uid, {
-      groups: { ...currentUser.groups, active: groupId }
+      groups: { ...userGroups, active: groupId }
     });
-    // console.log('Group set in service: ', this.activeGroup);
+    this.activeGroup = groupId;
+    console.log('User active group set to: ', groupId);
   }
 
-  // async setUserAsGroupAdmin(user: iUser, groupId: string) {
-  //   const currentUser = await this._firestoreService.getUser(user.uid);
-  //   const updatedUserAdminGroups = [...currentUser.groups.admin, groupId];
-  //   await this._firestoreService.updateUser(user.uid, {
-  //     groups: { ...currentUser.groups, admin: updatedUserAdminGroups }
-  //   });
-  // }
-
-  async setUserAsGroupMember(user: iUser, groupId: string) {
-    await this._firestoreService.updateUser(user.uid, {
-      groups: { member: [groupId] }
+  async setUserAsGroupMember(activeUser: iUser, groupId: string) {
+    const currentUser = activeUser;
+    const userGroups = currentUser.groups || {};
+    await this._firestoreService.updateUser(currentUser.uid, {
+      groups: { ...userGroups, member: [...userGroups.member || [], groupId] }
     });
+    console.log('User member group set: ', groupId);
+    this.setActiveGroup(activeUser, groupId);
   }
 
   doesUserHasGroup(user: iUser): boolean {
@@ -94,6 +99,16 @@ export class GroupService {
     if(!user.groups) return false;
     if(!user.groups.member) return false;
     return user.groups.member.includes(groupId);
+  }
+
+  async getGroupMembers(groupId: string): Promise<iUser[]> {
+    const group = await this._firestoreService.getGroup(groupId);
+    const members: iUser[] = [];
+    for (const member of group.users) {
+      const user = await this._firestoreService.getUser(member);
+      members.push(user);
+    }
+    return members;
   }
 
 }
