@@ -6,7 +6,7 @@
           </ion-title>
       </ion-col>
       <ion-col size="7">
-          <ion-buttons class="ion-justify-content-end">
+        <ion-buttons class="ion-justify-content-end">
               <!-- <ion-button (click)="navigateToSearch()" color="secondary" disabled="true">
                   <ion-icon name="search" slot="icon-only"></ion-icon>
               </ion-button> -->
@@ -20,14 +20,15 @@
                 interface="popover"
                 fill="outline"
                 toggleIcon="chevron-down-outline"
-                value="alphabetical"
+                value="mostUrgent"
                 justify="end"
               >
                 <ion-select-option value="alphabetical">Alphabetical</ion-select-option>
                 <ion-select-option value="color">Color</ion-select-option>
-                <ion-select-option value="date">Date</ion-select-option>
+                <ion-select-option value="mostUrgent">Urgency</ion-select-option>
+                <ion-select-option value="leastUrgent">Least urgent</ion-select-option>
               </ion-select>
-          </ion-buttons>
+        </ion-buttons>
       </ion-col>
   </ion-row>
 </ion-grid>

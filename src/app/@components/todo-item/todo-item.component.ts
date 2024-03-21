@@ -8,6 +8,7 @@ import { ProfilePicturePipe } from '../../@pipes/profile-picture.pipe';
 import { ribbon, reorderThree } from 'ionicons/icons';
 import { GroupService } from '../../@services/group.service';
 import { AuthenticationService } from '../../@services/authentication.service';
+import { ToIsoStringPipe } from '../../@pipes/to-iso-string.pipe';
 addIcons({ ribbon, reorderThree });
 
 @Component({
@@ -17,13 +18,14 @@ addIcons({ ribbon, reorderThree });
     CommonModule,
     IonicModule,
     ProfilePicturePipe,
+    ToIsoStringPipe,
   ],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss',
 })
 export class TodoItemComponent {
   @Input() todo!: iTodo;
-  @HostBinding('style.--border-color') borderColor!: string;
+  // @HostBinding('style.--border-color') borderColor!: string;
 
   user = this._authService.activeUser;
 

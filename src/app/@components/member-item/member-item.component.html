@@ -1,4 +1,4 @@
-<ion-item detail="true" class="ion-padding" lines="none">
+<ion-item [detail]="this.isLink" class="ion-padding" lines="none">
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col size="2">
@@ -7,13 +7,13 @@
           <!-- (error) > gestion image cassé -->
         </ion-avatar>
       </ion-col>
-      <ion-col size="7" class="ion-align-self-center col-title">
+      <ion-col size="6" class="ion-align-self-center col-title">
         <ion-text>{{ member.displayName }}</ion-text><br>
-        <ion-note class="ion-text-nowrap">{{ member.email }}</ion-note>
+        <ion-note>{{ member.email }}</ion-note>
       </ion-col>
-      <ion-col size="3" class="ion-align-self-center ion-text-end">
+      <ion-col size="4" class="ion-align-self-center ion-text-end">
         <ion-chip color="warning" class="pointsTag">
-          <ion-text strong="true">{{ member.points }}</ion-text>
+          <ion-text strong="true">{{ this.member.points }}</ion-text>
           <ion-icon name="ribbon" ></ion-icon>
       </ion-chip>
       </ion-col>

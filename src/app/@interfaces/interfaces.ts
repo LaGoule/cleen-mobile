@@ -9,11 +9,12 @@ export interface iTodo {
     priority: number;
     description: string;
     
-    assignatedUsers?: iUser[];
+    assignatedUsers: iUser[];
     completedBy?: string[];
     
     creationDate: Date;
-    dueDate?: Date;
+    isScheduled: boolean;
+    dueDate?: Date | null;
     completionDate?: Date;
     repeat: string;
 }
@@ -33,10 +34,10 @@ export interface iUser {
     photoURL?: string;
     inscriptionDate?: Date;
 
-    groups?: {
-        active?: string;
-        admin?: string[];
-        member?: string[];
+    groups: {
+        active: string;
+        admin: string[];
+        member: string[];
     };
 
     todos?: {

@@ -48,6 +48,6 @@ export class DashboardPageComponent {
 
   onSortingTypeChange(sortingType: string) {
     this.sortingType = sortingType;
-    console.log(`Sorting type changed to ${sortingType}`);
+    // console.log(`Sorting type changed to ${sortingType}`);
   }
 }

@@ -1,37 +1,70 @@
 <app-page-header [title]="this.title"></app-page-header>
 <ion-content color="light" class="ion-padding">
-
-  <div *ngIf="this.activeGroup; else loading">
-    <ion-card class="ion-padding">
-      <ion-card-title class="ion-text-center">
-        {{ this.activeGroup.displayName }}
-      </ion-card-title>
-      <ion-card-subtitle class="ion-text-center">
-        {{ this.activeGroup.id }}
-      </ion-card-subtitle>
-      <ion-button disabled="true" expand="block">
-        Join new group
-        <!-- <ion-icon name="log-out-outline" slot="end"></ion-icon> -->
-      </ion-button>
-      <ion-button disabled="true" color="danger" expand="block">
-        Leave group
-        <ion-icon name="warning" slot="end"></ion-icon>
-      </ion-button>
-    </ion-card>
-
-    <ion-list *ngIf="this.members" color="light">
-      <app-member-item
-        *ngFor="let member of this.members|sortMembers; first as isFirst"
-        [member]="member"
-        (click)="this.handleMemberClick(member)"
-        [class.topMember]="isFirst"
-      ></app-member-item>
-    </ion-list>
+  <div *ngIf="!this.loading; else loadingGeneral">
+    <div *ngIf="this.activeGroup; else loading">
+      <ion-card class="ion-padding">
+        <ion-card-title class="ion-text-center">
+          {{ this.activeGroup.displayName }}
+        </ion-card-title>
+        <ion-card-subtitle class="ion-text-center">
+          {{ this.activeGroup.id }}
+        </ion-card-subtitle>
+  
+        <ion-list>
+          <ion-item lines="none">
+            <ion-select 
+              [disabled]="true"
+              *ngIf="this.userGroups; else loading"
+              (ionChange)="this.handleGroupChange($event.detail.value)"
+              [value]="this.activeGroup.id"
+              interface="popover" 
+              toggleIcon="chevron-down-outline"
+              fill="outline"
+              expend="block"
+              justify="end"
+            >
+              <ion-select-option 
+                *ngFor="let group of this.userGroups"
+                [value]="group.id"
+              >
+                {{ group.displayName }}
+              </ion-select-option>
+            </ion-select>
+            <ng-template #loading>
+              <ion-spinner color="primary" name="crescent" class="ion-justify-self-end ion-text-end"></ion-spinner>
+            </ng-template>
+          </ion-item>
+        </ion-list>
+  
+        <ion-button expand="block" (click)="openJoinGroup()" class="ion-margin-top">
+          Join a group!
+        </ion-button>
+        <!-- <ion-button disabled="true" color="danger" expand="block">
+          Leave group
+          <ion-icon name="warning" slot="end"></ion-icon>
+        </ion-button> -->
+      </ion-card>
+  
+      <ion-list *ngIf="this.members" color="light">
+        <app-member-item
+          *ngFor="let member of this.members|sortMembers; first as isFirst"
+          [member]="member"
+          [isLink]="true"
+          (click)="this.handleMemberClick(member)"
+          [class.topMember]="isFirst"
+        ></app-member-item>
+      </ion-list>
+    </div>
+    <ng-template #loading>
+      <ion-card class="ion-padding ion-text-center">
+        <ion-spinner class="ion-justify-self-center"></ion-spinner>
+      </ion-card>
+    </ng-template>
   </div>
-
-  <ng-template #loading>
-    <ion-card class="ion-padding ion-text-center">
-      <ion-spinner class="ion-justify-self-center"></ion-spinner>
-    </ion-card>
+  <ng-template #loadingGeneral>
+    <div class="absolute-center">
+      <ion-spinner color="primary" name="crescent" class="ion-justify-self-center big"></ion-spinner>
+    </div>
   </ng-template>
+
 </ion-content>

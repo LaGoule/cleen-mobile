@@ -11,6 +11,7 @@ import { GroupService } from '../../@services/group.service';
 import { ToIsoStringPipe } from '../../@pipes/to-iso-string.pipe';
 import { addIcons } from 'ionicons';
 import { chevronDownOutline } from 'ionicons/icons';
+import { UsersToUidPipe } from '../../@pipes/users-to-uid.pipe';
 addIcons({ chevronDownOutline });
 
 @Component({
@@ -23,6 +24,7 @@ addIcons({ chevronDownOutline });
     IonicModule,
     FormsModule,
     ToIsoStringPipe,
+    UsersToUidPipe,
   ]
 })
 export class EditTodoModalComponent  implements OnInit {
@@ -30,6 +32,7 @@ export class EditTodoModalComponent  implements OnInit {
   @Output() closeAction = new EventEmitter<boolean>();
 
   protected editedTodo!: iTodo;
+  protected editedPoints!: string;
   protected groupMembers!: iUser[] | undefined;
 
   constructor(
@@ -41,7 +44,12 @@ export class EditTodoModalComponent  implements OnInit {
 
   async ngOnInit() {
     this.editedTodo = this.todo;
+    this.editedPoints = String(this.editedTodo.points);
     this.groupMembers = await this._groupService.getGroupMembers(this._groupService.activeGroup);
+  }
+
+  async ionViewWillEnter() {
+    console.log('ionViewWillEnter, assignUsers: ', this.editedTodo.assignatedUsers);
   }
 
   protected updateTodo(): void {
@@ -49,6 +57,10 @@ export class EditTodoModalComponent  implements OnInit {
       this.editedTodo.title = '';
       return;
     }
+    if (this.editedTodo.dueDate !== null && !this.editedTodo.isScheduled) {
+      this.editedTodo.dueDate = null;
+    }
+    this.editedTodo.points = Number(this.editedPoints);
     this._firestoreService.updateTodoItem(this.editedTodo);
     this.editedTodo.title = '';
   }
@@ -64,8 +76,28 @@ export class EditTodoModalComponent  implements OnInit {
     this._router.navigate(['/']);
   }
 
-  onDueDateChange(event: any) {
+  protected onDueDateChange(event: any) {
     this.editedTodo.dueDate = new Date(event.detail.value);
-    console.log('onDueDateChange:', this.editedTodo.dueDate);
+    // console.log('onDueDateChange:', this.editedTodo.dueDate);
+  }
+  
+  protected onPointsChange(event: any) {
+    this.editedTodo.points = Number(event.detail.value);
+  }
+
+  protected initDueDate(event: any){
+    if (event && this.editedTodo.dueDate === null){
+      this.editedTodo.dueDate = new Date();
+    } else {
+      this.editedTodo.dueDate = null;
+    }
+  }
+  
+  compareUsers(u1: iUser, u2: iUser) {
+    return u1 && u2 ? u1.uid === u2.uid : u1 === u2;
+  }
+
+  comparePoints(p1: number, p2: number) {
+    return p1 === p2;
   }
 }

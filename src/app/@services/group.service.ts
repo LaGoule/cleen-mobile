@@ -3,6 +3,7 @@ import { iGroup, iUser } from '../@interfaces/interfaces';
 import { FirestoreService } from './firestore.service';
 import { AuthenticationService } from './authentication.service';
 import { Observable } from 'rxjs';
+import { group } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -38,10 +39,10 @@ export class GroupService {
     }
     // If user has active group, set it as active
     else {
-      console.log('User has active group, setting it as active');
+      // console.log('User has active group, setting it as active');
       this.activeGroup = activeUser.groups.active;
     }
-    console.log('service activeGroup: ', this.activeGroup);
+    // console.log('service activeGroup: ', this.activeGroup);
   }
   
   async createAndSetGroup(activeUser: iUser) {
@@ -76,10 +77,16 @@ export class GroupService {
   async setUserAsGroupMember(activeUser: iUser, groupId: string) {
     const currentUser = activeUser;
     const userGroups = currentUser.groups || {};
+    // Return if user is already in the group
+    if (userGroups.member?.includes(groupId)) return;
+
+    const updatedGroups = { ...userGroups, member: [...(userGroups.member || []), groupId] };
     await this._firestoreService.updateUser(currentUser.uid, {
-      groups: { ...userGroups, member: [...userGroups.member || [], groupId] }
+      groups: updatedGroups
     });
-    console.log('User member group set: ', groupId);
+    // Update the currentUser object with the new groups
+    currentUser.groups = updatedGroups;
+    console.log('User is member of: ', currentUser.groups?.member);
     this.setActiveGroup(activeUser, groupId);
   }
 
@@ -111,4 +118,41 @@ export class GroupService {
     return members;
   }
 
+  async joinGroup(user: iUser, groupId: string): Promise<void> {
+    const currentUser = user;
+    if (!currentUser) {
+      console.log('User not found');
+      return;
+    }
+    if (this.isUserInGroup(currentUser, groupId)) {
+      console.log('User is already in this group');
+      this.setActiveGroup(currentUser, groupId);
+      return;
+    }
+    // Add user to group in db
+    console.log('Adding user to group');
+    const groupMembers = await this.getGroupMembers(groupId);
+    // Convert to array of uids
+    const groupMembersUids = groupMembers.map(member => member.uid);
+    groupMembersUids.push(currentUser.uid); // Add current user uid to the group members
+  
+    // Get the current group object
+    const currentGroup = await this._firestoreService.getGroup(groupId);
+    // Add the new user to the users list
+    currentGroup.users = groupMembersUids;
+  
+    // Update the group with the new members list
+    await this._firestoreService.updateGroup(groupId, currentGroup);
+  
+    // Add group to user in db
+    console.log('Adding group to user');
+    await this.setUserAsGroupMember(currentUser, groupId);
+    // Set group as active
+    console.log('Setting group as active');
+    await this.setActiveGroup(currentUser, groupId);
+  }
+
+  async changeGroup(activeUser: iUser, groupId: string) {
+    this.setActiveGroup(activeUser, groupId);
+  }
 }

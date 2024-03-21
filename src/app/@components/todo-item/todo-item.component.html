@@ -15,9 +15,14 @@
                 [size]="this.todo.assignatedUsers!.length > 0 ? 6 : 8" 
                 class="ion-align-self-center col-title"
             >
-                <ion-text>
+                <ion-text class="text-title">
                     {{ this.todo.title }}
                 </ion-text>
+                <ion-note *ngIf="this.todo.isScheduled">{{ 
+                    this.todo.dueDate
+                        |toIsoString
+                        |date:'dd-MM-yy, HH:mm':'fr-FR'
+                }}</ion-note>
             </ion-col>
             <ion-col *ngIf="this.todo.assignatedUsers!.length > 0" size="2" class="ion-align-self-center">
                 <div class="users" *ngIf="this.todo.assignatedUsers !== null">

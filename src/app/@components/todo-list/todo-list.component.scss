@@ -8,4 +8,15 @@
     h4{
         margin: 20px auto;
     }
+    .col-title{
+        display: flex;
+        flex-direction: column-reverse;
+        padding: 2px 10px 3px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    ion-row{
+        padding: 14px 0;
+    }
 }

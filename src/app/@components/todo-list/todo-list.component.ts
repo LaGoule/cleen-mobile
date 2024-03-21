@@ -16,6 +16,7 @@ import { ItemReorderEventDetail } from '@ionic/core';
 import { EditTodoModalComponent } from '../edit-todo-modal/edit-todo-modal.component';
 import { ModalController } from '@ionic/angular/standalone';
 import { GroupByPipe } from '../../@pipes/group-by.pipe';
+import { FilterByUserPipe } from '../../@pipes/filter-by-user.pipe';
 
 @Component({
   selector: 'app-todo-list',
@@ -25,6 +26,7 @@ import { GroupByPipe } from '../../@pipes/group-by.pipe';
     IonicModule,
     FormsModule,
     TodoItemComponent,
+    FilterByUserPipe,
     GroupByPipe,
     SortTodosPipe,
     EditTodoModalComponent,
@@ -35,6 +37,7 @@ import { GroupByPipe } from '../../@pipes/group-by.pipe';
 export class TodoListComponent {
   @Input() listTitle!: string;
   @Input() constraintIndex!: number;
+  @Input() filterByUserId!: string;
   @Input() sortingType!: string;
 
   protected activeGroup: string = '';
@@ -72,6 +75,11 @@ export class TodoListComponent {
   ){}
 
   async ngOnInit(): Promise<void> {
+    this.activeGroup = this._groupService.activeGroup;
+    this.todoList$ = this._firestoreService.loadTodos(this.activeGroup, this.constraintIndex);
+  }
+
+  public async ionOnViewWillEnter(): Promise<void> {
     this.activeGroup = this._groupService.activeGroup;
     this.todoList$ = this._firestoreService.loadTodos(this.activeGroup, this.constraintIndex);
   }

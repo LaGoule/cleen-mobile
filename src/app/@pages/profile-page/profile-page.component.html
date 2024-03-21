@@ -1,30 +1,22 @@
 <app-page-header [title]="this.title" backUrl="/group"></app-page-header>
-<ion-content color="light" class="ion-padding">
+<ion-content color="light" class="ion-padding" *ngIf="this.user">
   <ion-list *ngIf="this.user">
-    <app-member-item [member]="this.user"></app-member-item>
+    <app-member-item [member]="this.user" [isLink]="false"></app-member-item>
   </ion-list>
-
-  <!-- <ion-list>
-    <ion-item-group>
-      <ion-item-divider mode="md">
-      <ion-label>Todos history</ion-label>
-      </ion-item-divider>
-      
-      <div *ngIf="(todoList$)">   
-          <app-todo-item
-              *ngFor="let todo of todoList$|async|sortTodos" [todo]="todo"
-          ></app-todo-item>
-      </div>
-    </ion-item-group>
-  </ion-list> -->
-
-  <app-todo-list 
-    [listTitle]="'Todos history'"
-    [constraintIndex]="2"
-  ></app-todo-list>
+  
+  <!-- <ion-button (click)="resetUserPoints()" color="warning" expand="block">
+    Reset points
+  </ion-button> -->
 
   <ion-button (click)="logout()" color="danger" expand="block">
     Logout
     <ion-icon name="log-out-outline" slot="end"></ion-icon>
   </ion-button>
+
+  <app-todo-list 
+    class="ion-no-padding"
+    [listTitle]="'History'"
+    [constraintIndex]="1"
+    [filterByUserId]="this.user.uid"
+  ></app-todo-list>
 </ion-content>

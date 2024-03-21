@@ -8,30 +8,39 @@ import { iTodo } from '../@interfaces/interfaces';
 export class SortTodosPipe implements PipeTransform {
 
   transform(value: iTodo[], sortingType: string): iTodo[] {
-    // Alphabetical
-    if (sortingType === 'alphabetical') {
-      return value.sort((a, b) => {
-        return a.title.localeCompare(b.title);
-      });
+    switch (sortingType) {
+      case 'alphabetical':
+        return value.sort((a, b) => a.title.localeCompare(b.title));
+      case 'mostUrgent':
+        return value.sort((a, b) => {
+          if (a.dueDate && !b.dueDate) {
+            return -1;
+          }
+          if (!a.dueDate && b.dueDate) {
+            return 1;
+          }
+          if (a.dueDate && b.dueDate) {
+            return (a.dueDate as any).toDate().getTime() - (b.dueDate as any).toDate().getTime();
+          }
+          return 0;
+        });
+      case 'leastUrgent':
+        return value.sort((a, b) => {
+          if (a.dueDate && !b.dueDate) {
+            return 1;
+          }
+          if (!a.dueDate && b.dueDate) {
+            return -1;
+          }
+          if (a.dueDate && b.dueDate) {
+            return (b.dueDate as any).toDate().getTime() - (a.dueDate as any).toDate().getTime();
+          }
+          return 0;
+        });
+      case 'color':
+        return value.sort((a, b) => a.color.localeCompare(b.color));
+      default:
+        return value;
     }
-    // Date
-    if (sortingType === 'dueDate') {
-      const future = new Date(
-        new Date().getFullYear() + 100,
-        new Date().getMonth(),
-        new Date().getDate(),
-      ).getTime();
-      
-      return value.sort((a, b) => {
-        return (a.dueDate?.getTime()||future) - (b.dueDate?.getTime()||future);
-      });
-    }
-    // Color
-    if (sortingType === 'color') {
-      return value.sort((a, b) => {
-        return a.color.localeCompare(b.color);
-      });
-    }
-    return value;
   }
 }

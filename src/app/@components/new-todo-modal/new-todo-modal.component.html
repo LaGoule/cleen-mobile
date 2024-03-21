@@ -18,6 +18,7 @@
           label="Nom de la tâche"
           label-placement="floating"
           placeholder="Faire la lessive"
+          autofocus="true"
         ></ion-input>
       </ion-item>
 
@@ -37,6 +38,7 @@
           label="Nombre de points"
           toggleIcon="chevron-down-outline"
           placeholder="0"
+          type="number"
         >
           <ion-select-option value="0">0</ion-select-option>
           <ion-select-option value="25">25</ion-select-option>
@@ -76,7 +78,15 @@
         </ion-select>
       </ion-item>
 
-      <ion-item class="ion-no-padding">
+      <ion-item class="ion-no-padding" >
+        Scheduled
+        <ion-toggle 
+          [(ngModel)]="this.newTodo.isScheduled"
+          aria-label="Scheduled"
+          slot="end"
+        ></ion-toggle>
+      </ion-item>
+      <ion-item class="ion-no-padding" *ngIf="this.newTodo.isScheduled">
         Due date
         <ion-datetime-button slot="end" datetime="due-date"></ion-datetime-button>
       </ion-item>
@@ -108,13 +118,16 @@
       <ion-item class="ion-no-padding">
         <ion-select 
           [(ngModel)]="this.newTodo.assignatedUsers"
-          interface="popover" 
+          interface="alert" 
           label="Assignated users" 
           [multiple]="true"
           toggleIcon="chevron-down-outline"
         >
-          <ion-select-option *ngFor="let user of this.groupMembers" [value]="user">
-            {{user.displayName}}
+          <ion-select-option 
+            *ngFor="let user of this.groupMembers" 
+            [value]="user"
+          >
+            {{ user.displayName }}
           </ion-select-option>
         </ion-select>
       </ion-item>

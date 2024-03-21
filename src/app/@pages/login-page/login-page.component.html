@@ -1,6 +1,6 @@
 <app-page-header title="Cleen"></app-page-header>
 <ion-content class="ion-padding" color="light">
-    <ion-card>
+    <ion-card *ngIf="!this.loginInProgress; else loading">
         <ion-card-header>
                 <!-- <ion-icon name="information-circle-outline" size="small"></ion-icon> -->
                 <ion-label>Sign in with your Google account to continue.</ion-label> 
@@ -9,10 +9,22 @@
             </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <ion-button (click)="this._authService.loginWithGoogle()" color="primary" expand="block">
+            <ion-button (click)="this.login()" color="primary" expand="block">
                 Sign in with Google
                 <ion-icon name="logo-google" slot="end"></ion-icon>
             </ion-button>
         </ion-card-content>
     </ion-card>
+
+    <ng-template #loading>
+        <div class="absolute-center">
+            <ion-spinner 
+                name="crescent" 
+                color="primary" 
+                size="large"
+            ></ion-spinner>
+        </div>
+    </ng-template>
 </ion-content>
+
+ 

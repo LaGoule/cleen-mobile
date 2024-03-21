@@ -1,122 +1,141 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Edit Todo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
 
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="cancel()">Cancel</ion-button>
-        </ion-buttons>
-        <ion-title>Edit Todo</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
+  <ion-item class="ion-no-padding">
+    <ion-input
+      [(ngModel)]="this.editedTodo.title"
+      label="Nom de la tâche"
+      label-placement="floating"
+      placeholder="Faire la lessive"
+    ></ion-input>
+  </ion-item>
 
-      <ion-item class="ion-no-padding">
-        <ion-input
-          [(ngModel)]="this.editedTodo.title"
-          label="Nom de la tâche"
-          label-placement="floating"
-          placeholder="Faire la lessive"
-        ></ion-input>
-      </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-select 
+      [(ngModel)]="this.editedPoints"
+      interface="popover" 
+      label="Nombre de points"
+      toggleIcon="chevron-down-outline"
+      type="number"
+    >
+      <ion-select-option value="0">0</ion-select-option>
+      <ion-select-option value="25">25</ion-select-option>
+      <ion-select-option value="50">50</ion-select-option>
+      <ion-select-option value="75">75</ion-select-option>
+      <ion-select-option value="100">100</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-      <ion-item class="ion-no-padding">
-        <ion-select 
-          [(ngModel)]="this.editedTodo.points"
-          interface="popover" 
-          label="Nombre de points"
-          placeholder="0"
-        >
-          <ion-select-option value="0" ngDefaultControl>0</ion-select-option>
-          <ion-select-option value="25">25</ion-select-option>
-          <ion-select-option value="50">50</ion-select-option>
-          <ion-select-option value="75">75</ion-select-option>
-          <ion-select-option value="100">100</ion-select-option>
-        </ion-select>
-      </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-textarea
+      [(ngModel)]="this.editedTodo.description"
+      label="Description"
+      label-placement="floating"
+      placeholder="Mettre le linge dans la machine, lancer la machine, étendre le linge..."
+    ></ion-textarea>
+  </ion-item>
 
-      <ion-item class="ion-no-padding">
-        <ion-textarea
-          [(ngModel)]="this.editedTodo.description"
-          label="Description"
-          label-placement="floating"
-          placeholder="Mettre le linge dans la machine, lancer la machine, étendre le linge..."
-        ></ion-textarea>
-      </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-select 
+      mode="md"
+      [(ngModel)]="this.editedTodo.color"
+      interface="popover" 
+      label="Color" 
+      placeholder="No color"
+      toggleIcon="chevron-down-outline"
+    >
+      <ion-select-option value="" ngDefaultControl>No color</ion-select-option>
+      <ion-select-option value="red">Red</ion-select-option>
+      <ion-select-option value="green">Green</ion-select-option>
+      <ion-select-option value="blue">Blue</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-      <ion-item class="ion-no-padding">
-        <ion-select 
-          mode="md"
-          [(ngModel)]="this.editedTodo.color"
-          interface="popover" 
-          label="Color" 
-          placeholder="No color"
-          toggleIcon="chevron-down-outline"
-        >
-          <ion-select-option value="" ngDefaultControl>No color</ion-select-option>
-          <ion-select-option value="red">Red</ion-select-option>
-          <ion-select-option value="green">Green</ion-select-option>
-          <ion-select-option value="blue">Blue</ion-select-option>
-        </ion-select>
-      </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-select 
+      [(ngModel)]="this.editedTodo.priority"
+      interface="popover" 
+      label="Priority" 
+      placeholder="Default"
+      toggleIcon="chevron-down-outline"
+    >
+      <ion-select-option value="2">High</ion-select-option>
+      <ion-select-option value="1" ngDefaultControl>Default</ion-select-option>
+      <ion-select-option value="0">Low</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-      <ion-item class="ion-no-padding">
-        <ion-select 
-          [(ngModel)]="this.editedTodo.priority"
-          interface="popover" 
-          label="Priority" 
-          placeholder="Default"
-          toggleIcon="chevron-down-outline"
-        >
-          <ion-select-option value="2">High</ion-select-option>
-          <ion-select-option value="1" ngDefaultControl>Default</ion-select-option>
-          <ion-select-option value="0">Low</ion-select-option>
-        </ion-select>
-      </ion-item>
+  <ion-item class="ion-no-padding" >
+    Scheduled
+    <ion-toggle 
+      [(ngModel)]="this.editedTodo.isScheduled"
+      (ionChange)="initDueDate($event.detail.checked)"
+      aria-label="Scheduled"
+      slot="end"
+    ></ion-toggle>
+  </ion-item>
+  <ion-item class="ion-no-padding" *ngIf="this.editedTodo.isScheduled">
+    Due date
+    <ion-datetime-button slot="end" datetime="due-date"></ion-datetime-button>
+  </ion-item>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime
+        *ngIf="this.editedTodo.dueDate"
+        [value]="this.editedTodo.dueDate|toIsoString"
+        (ionChange)="onDueDateChange($event)"
+        id="due-date"
+        presentation="date-time"
+      ></ion-datetime>
+    </ng-template>
+  </ion-modal>
 
-      <ion-item class="ion-no-padding">
-        Due date
-        <ion-datetime-button slot="end" datetime="due-date"></ion-datetime-button>
-      </ion-item>
-      <ion-modal [keepContentsMounted]="true">
-        <ng-template>
-          <ion-datetime
-            [value]="this.editedTodo.dueDate|toIsoString"
-            (ionChange)="onDueDateChange($event)"
-            id="due-date"
-            presentation="date-time"
-          ></ion-datetime>
-        </ng-template>
-      </ion-modal>
+  <ion-item class="ion-no-padding">
+    <ion-select 
+      [(ngModel)]="this.editedTodo.repeat"
+      interface="popover" 
+      label="Repeat" 
+      placeholder="Once"
+      toggleIcon="chevron-down-outline"
+    >
+      <ion-select-option value="once" ngDefaultControl>Once</ion-select-option>
+      <ion-select-option value="daily">Daily</ion-select-option>
+      <ion-select-option value="weekly">Weekly</ion-select-option>
+      <ion-select-option value="monthly">Monthly</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-      <ion-item class="ion-no-padding">
-        <ion-select 
-          [(ngModel)]="this.editedTodo.repeat"
-          interface="popover" 
-          label="Repeat" 
-          placeholder="Once"
-          toggleIcon="chevron-down-outline"
-        >
-          <ion-select-option value="once" ngDefaultControl>Once</ion-select-option>
-          <ion-select-option value="daily">Daily</ion-select-option>
-          <ion-select-option value="weekly">Weekly</ion-select-option>
-          <ion-select-option value="monthly">Monthly</ion-select-option>
-        </ion-select>
-      </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-select  
+      *ngIf="this.groupMembers; else loading"
+      [(ngModel)]="this.editedTodo.assignatedUsers"
+      interface="alert" 
+      label="Assignated users" 
+      [multiple]="true"
+      toggleIcon="chevron-down-outline"
+      [compareWith]="compareUsers"
+    >
+      <ion-select-option 
+        *ngFor="let user of this.groupMembers" 
+        [value]="user"
+      >
+        {{user.displayName}}
+      </ion-select-option>
+    </ion-select>
 
-      <ion-item class="ion-no-padding">
-        <ion-select 
-          [(ngModel)]="this.editedTodo.assignatedUsers"
-          interface="popover" 
-          label="Assignated users" 
-          [multiple]="true"
-          toggleIcon="chevron-down-outline"
-        >
-          <ion-select-option *ngFor="let user of this.groupMembers" [value]="user">
-            {{user.displayName}}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ng-template #loading>
+      <ion-spinner color="primary" slot="end" name="crescent"></ion-spinner>
+    </ng-template>
+  </ion-item>
 
-    </ion-content>
+</ion-content>

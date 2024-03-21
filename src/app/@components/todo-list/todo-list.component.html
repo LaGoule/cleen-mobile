@@ -10,9 +10,9 @@
         </ion-item-divider>
 
         <div *ngIf="(todoList$|async) as todoList; else noTodos">   
-            <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+            <ion-reorder-group [disabled]="true" (ionItemReorder)="handleReorder($any($event))">
                 <app-todo-item
-                    *ngFor="let todo of todoList|groupBy|sortTodos:this.sortingType" [todo]="todo"
+                    *ngFor="let todo of todoList|filterByUser:this.filterByUserId|groupBy|sortTodos:this.sortingType" [todo]="todo"
                     (click)="handleClickOnTodoItem($event, todo)"
                 ></app-todo-item>
             </ion-reorder-group>
@@ -37,23 +37,46 @@
 
 <!-- Skeleton -->
 <ng-template #loading>
-    <ion-list>
-        <ion-list-header >
-            <ion-skeleton-text animated="true" style="width:30%"></ion-skeleton-text>
-        </ion-list-header>
-        <ion-item *ngFor="let i of [].constructor(4)">
-            <ion-grid class="ion-no-padding">
-                <ion-row class="ion-align-items-center">
-                    <ion-col class="ion-padding" size="2">
-                        <ion-checkbox disabled="true">
-                        </ion-checkbox>
-                    </ion-col>
-                    <ion-col>
-                        <ion-skeleton-text animated="true" style="width:70%"></ion-skeleton-text>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-item>
+    <ion-list
+        class="ion-margin"
+        inset="true"
+        lines="full"
+    >
+        <ion-item-group>
+            <ion-item-divider mode="md" style="padding-top:5px;padding-bottom:5px">
+                <ion-skeleton-text animated="true" style="width:30%"></ion-skeleton-text>
+            </ion-item-divider>
+
+            <div>   
+                <ion-reorder-group [disabled]="true">
+                    <ion-item *ngFor="let i of [].constructor(2)">
+                        <ion-grid class="ion-no-padding">
+                            <ion-row class="ion-justify-content-space-between ion-align-item-center">
+                                <ion-col size="1" class="ion-align-item-center">
+                                    <ion-checkbox mode="ios"></ion-checkbox>
+                                </ion-col>
+                    
+                                <ion-col [size]="8" class="ion-align-self-center col-title" style="padding-top:5px;padding-bottom:5px">
+                                    <ion-skeleton-text animated="true" style="width:70%;height:12px;" class="text-title">
+                                    </ion-skeleton-text>
+                                </ion-col>
+                    
+                                <ion-col size="3" 
+                                    class="ion-align-self-center"
+                                >
+                                    <ion-skeleton-text 
+                                        animated="true" 
+                                        style="width:80%;height:24px;border-radius:12px;"
+                                        class="ion-justify-self-end"
+                                    >
+                                    </ion-skeleton-text>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-item>
+                </ion-reorder-group>
+            </div>
+        </ion-item-group>
     </ion-list>
 </ng-template>
 

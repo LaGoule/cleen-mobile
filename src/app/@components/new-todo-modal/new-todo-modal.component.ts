@@ -36,7 +36,8 @@ export class NewTodoModalComponent  implements OnInit {
     points: 0 as number,
     priority: 1,
     description: '',
-    dueDate: new Date(),
+    isScheduled: false,
+    dueDate: null,
     repeat: 'once',
     assignatedUsers: [],
   };
@@ -70,7 +71,8 @@ export class NewTodoModalComponent  implements OnInit {
       points: this.newTodo.points as number,
       priority: this.newTodo.priority,
       description: this.newTodo.description,
-      dueDate: this.newTodo.dueDate,
+      isScheduled: this.newTodo.isScheduled,
+      dueDate: this.newTodo.isScheduled ? this.newTodo.dueDate : null,
       repeat: this.newTodo.repeat,
       assignatedUsers: this.newTodo.assignatedUsers,
       completedBy: [],
@@ -103,6 +105,7 @@ export class NewTodoModalComponent  implements OnInit {
       priority: 1,
       description: '',
       repeat: 'once',
+      isScheduled: false,
       assignatedUsers: [],
     };
   }
