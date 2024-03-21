@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { AuthenticationService } from '../../@services/authentication.service';
+import { addIcons } from 'ionicons';
+import { chevronDownOutline } from 'ionicons/icons';
+addIcons({ chevronDownOutline });
 
 @Component({
   selector: 'app-dashboard-header',
@@ -14,6 +17,7 @@ import { AuthenticationService } from '../../@services/authentication.service';
 })
 export class DashboardHeaderComponent  implements OnInit {
   protected user!: any;
+  @Output() public emitSortingType: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     private readonly _router: Router,

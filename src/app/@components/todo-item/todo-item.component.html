@@ -10,22 +10,27 @@
                     mode="ios"
                 ></ion-checkbox>
             </ion-col>
-            <ion-col size="6" class="ion-align-self-center col-title">
+
+            <ion-col 
+                [size]="this.todo.assignatedUsers!.length > 0 ? 6 : 8" 
+                class="ion-align-self-center col-title"
+            >
                 <ion-text>
                     {{ this.todo.title }}
                 </ion-text>
             </ion-col>
-            <ion-col size="2" class="ion-align-self-center">
-                <div class="users" *ngIf="this.todo.assignatedUsers">
-                    <ion-avatar *ngIf="this.todo.assignatedUsers.length <= 3">
-                        <img *ngFor="let user of this.todo.assignatedUsers" [src]="user.photoURL" />
+            <ion-col *ngIf="this.todo.assignatedUsers!.length > 0" size="2" class="ion-align-self-center">
+                <div class="users" *ngIf="this.todo.assignatedUsers !== null">
+                    <ion-avatar *ngFor="let user of this.todo.assignatedUsers" >
+                        <img [src]="user.photoURL" />
                     </ion-avatar>
-                    <ion-avatar *ngIf="this.todo.assignatedUsers && this.todo.assignatedUsers.length > 3">
+                    <!-- <ion-avatar *ngIf="this.todo.assignatedUsers && this.todo.assignatedUsers.length > 3">
                         <img *ngFor="let user of this.todo.assignatedUsers.slice(0, 2)" [src]="user.photoURL" />
                         <ion-text>+{{ this.todo.assignatedUsers.length - 3 }}</ion-text>
-                    </ion-avatar>
+                    </ion-avatar> -->
                 </div>
             </ion-col>
+
             <ion-col size="3" class="ion-align-self-center ion-text-end">
                 <ion-chip color="warning" class="pointsTag">
                     <ion-text strong="true">{{ this.todo.points }}</ion-text>

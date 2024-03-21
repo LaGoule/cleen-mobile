@@ -10,7 +10,7 @@ export interface iTodo {
     description: string;
     
     assignatedUsers?: iUser[];
-    completedBy?: iUser[];
+    completedBy?: string[];
     
     creationDate: Date;
     dueDate?: Date;
@@ -44,10 +44,5 @@ export interface iUser {
         completed: iTodo[];
     };
 
-    points: {
-        total: number;
-        dailyTotal: number;
-        weaklyTotal: number;
-        monthlyTotal: number;
-    };
+    points: number;
 }

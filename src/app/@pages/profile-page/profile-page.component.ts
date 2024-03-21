@@ -8,6 +8,8 @@ addIcons({ logOutOutline });
 import { AuthenticationService } from '../../@services/authentication.service';
 import { CommonModule } from '@angular/common';
 import { MemberItemComponent } from '../../@components/member-item/member-item.component';
+import { TodoItemComponent } from '../../@components/todo-item/todo-item.component';
+import { TodoListComponent } from '../../@components/todo-list/todo-list.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -19,9 +21,11 @@ import { MemberItemComponent } from '../../@components/member-item/member-item.c
     IonicModule,
     PageHeaderComponent,
     MemberItemComponent,
+    TodoListComponent,
   ],
 })
 export class ProfilePageComponent  implements OnInit {
+  
   title: string = "Profile";
   user!: any;
 

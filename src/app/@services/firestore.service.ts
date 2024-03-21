@@ -118,6 +118,20 @@ export class FirestoreService {
     await updateDoc(userReference, updatedUser);
   }
 
+  async addPoints(uid: string, points: number): Promise<void> {
+    const currentPoints: number = (await this.getUser(uid)).points as number;
+    const newPoints: number = currentPoints + points;
+
+    const userReference = doc(this._firestore, `users/` + uid);
+    await updateDoc(userReference, {points: newPoints} as { [x: number]: any; });
+  }
+
+  async removePoints(user: iUser, points: number): Promise<void> {
+    const userReference = doc(this._firestore, `users/` + user.uid);
+    const newPoints: number = user.points - points < 0 ? -points : 0;
+    await updateDoc(userReference, {points: newPoints} as { [x: number]: any; });
+  }
+
   //-----------------------------------GROUPS-----------------------------------
 
   /**

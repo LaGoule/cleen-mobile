@@ -15,6 +15,7 @@ addIcons({ add, search, filter});
 import { ItemReorderEventDetail } from '@ionic/core';
 import { EditTodoModalComponent } from '../edit-todo-modal/edit-todo-modal.component';
 import { ModalController } from '@ionic/angular/standalone';
+import { GroupByPipe } from '../../@pipes/group-by.pipe';
 
 @Component({
   selector: 'app-todo-list',
@@ -24,6 +25,7 @@ import { ModalController } from '@ionic/angular/standalone';
     IonicModule,
     FormsModule,
     TodoItemComponent,
+    GroupByPipe,
     SortTodosPipe,
     EditTodoModalComponent,
   ],
@@ -33,6 +35,7 @@ import { ModalController } from '@ionic/angular/standalone';
 export class TodoListComponent {
   @Input() listTitle!: string;
   @Input() constraintIndex!: number;
+  @Input() sortingType!: string;
 
   protected activeGroup: string = '';
   protected todoList$!: Observable<iTodo[]>;
@@ -81,11 +84,14 @@ export class TodoListComponent {
   }
 
   handleClickOnTodoItem($event: any, todo: iTodo): void {
-    if($event.target.tagName === 'ION-CHECKBOX' || this.isActionSheetOpen){
+    if(
+      $event.target.tagName === 'ION-CHECKBOX' || 
+      this.isActionSheetOpen ||
+      todo.completed
+    ){
       return;
     }
     this.toggleActionSheet(!this.isActionSheetOpen, todo);
-    // this._firestoreService.updateTodoItem(todo.id, {completedBy: this._groupService.activeUser});
   }
 
   handleItemAction(event: any) {

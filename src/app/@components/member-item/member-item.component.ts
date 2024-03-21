@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, Input } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { iUser } from '../../@interfaces/interfaces';
+import { addIcons } from 'ionicons';
+import { ribbon } from 'ionicons/icons';
+addIcons({ ribbon });
 
 @Component({
   selector: 'app-member-item',

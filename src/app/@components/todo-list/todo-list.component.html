@@ -9,10 +9,10 @@
             <ion-label>{{ listTitle }}</ion-label>
         </ion-item-divider>
 
-        <div *ngIf="(todoList$ | async); else noTodos">   
+        <div *ngIf="(todoList$|async) as todoList; else noTodos">   
             <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
                 <app-todo-item
-                    *ngFor="let todo of todoList$|async|sortTodos" [todo]="todo"
+                    *ngFor="let todo of todoList|groupBy|sortTodos:this.sortingType" [todo]="todo"
                     (click)="handleClickOnTodoItem($event, todo)"
                 ></app-todo-item>
             </ion-reorder-group>

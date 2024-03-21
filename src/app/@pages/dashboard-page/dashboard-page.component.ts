@@ -3,11 +3,13 @@ import { TodoListComponent } from '../../@components/todo-list/todo-list.compone
 import { IonicModule } from '@ionic/angular';
 import { IonModal } from '@ionic/angular/common';
 import { PageHeaderComponent } from '../../@components/page-header/page-header.component';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { NewTodoModalComponent } from '../../@components/new-todo-modal/new-todo-modal.component';
 import { DashboardHeaderComponent } from '../../@components/dashboard-header/dashboard-header.component';
-import { QueryConstraint } from '@angular/fire/firestore';
-import { query, where } from '@firebase/firestore';
+import { ModalController } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { add } from 'ionicons/icons';
+addIcons({ add });
 
 @Component({
   selector: 'app-dashboard-page',
@@ -28,13 +30,24 @@ export class DashboardPageComponent {
 
   protected title: string = "Dashboard";
   protected message: string = '';
+  protected sortingType: string = 'alphabetical';
 
   constructor(
-    private readonly _router: Router,
+    private readonly _modalController: ModalController,
   ) {}
 
-  public navigateToNewTodo(): void {
-    // this._router.navigate(['settings']);
-    console.log('Navigate to new todo');
+  async openNewTodoModal() {
+    const modal = await this._modalController.create({
+      component: NewTodoModalComponent,
+      componentProps: {
+        'isOpen': true,
+      }
+    });
+    return await modal.present();
+  }
+
+  onSortingTypeChange(sortingType: string) {
+    this.sortingType = sortingType;
+    console.log(`Sorting type changed to ${sortingType}`);
   }
 }

@@ -7,6 +7,10 @@ import { FirestoreService } from '../../@services/firestore.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MemberItemComponent } from '../../@components/member-item/member-item.component';
+import { addIcons } from 'ionicons';
+import { warning } from 'ionicons/icons';
+import { SortMembersPipe } from '../../@pipes/sort-members.pipe';
+addIcons({ warning });
 
 @Component({
   selector: 'app-group-page',
@@ -18,6 +22,7 @@ import { MemberItemComponent } from '../../@components/member-item/member-item.c
     IonicModule,
     PageHeaderComponent,
     MemberItemComponent,
+    SortMembersPipe,
   ],
 })
 export class GroupPageComponent  implements OnInit {
@@ -29,11 +34,15 @@ export class GroupPageComponent  implements OnInit {
     protected readonly _router: Router,
     protected readonly _firestoreService: FirestoreService,
     protected readonly _groupService: GroupService,
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.activeGroup = await this._firestoreService.getGroup(this._groupService.activeGroup);
-    console.log('activeGroup (group page): ', this.activeGroup);
+    this.members = await this._firestoreService.getUsers(this.activeGroup.id);
+  }
+  
+  async ionViewWillEnter() {
+    this.activeGroup = await this._firestoreService.getGroup(this._groupService.activeGroup);
     this.members = await this._firestoreService.getUsers(this.activeGroup.id);
   }
 

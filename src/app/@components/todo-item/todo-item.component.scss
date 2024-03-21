@@ -1,6 +1,12 @@
 :host{
     ion-item{
         border-bottom: 1px solid #f0f0f0;
+        border-right: 5px solid  var(--border-color, white);
+        box-sizing: border-box;
+        // box-shadow: inset 10px 0 0 0 var(--border-color, var(--ion-color-light));
+    }
+    ion-item:last-child{
+        border-bottom: none;
     }
     ion-row{
         position: relative;
@@ -9,7 +15,7 @@
     ion-avatar{
         width:25px;
         height: 25px;
-        outline: 1px solid var(--ion-color-success);
+        outline: 1px solid white;
     }
     .col-title{
         padding: 0 10px;
@@ -23,6 +29,11 @@
     }
     .users{
         text-align: right;
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    .users ion-avatar{
+        margin-left: -10px;
     }
     .pointsTag{
         outline: 1px solid var(--ion-color-warning);

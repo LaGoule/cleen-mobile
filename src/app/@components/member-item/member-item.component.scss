@@ -3,15 +3,30 @@
         overflow: hidden;
     }
     ion-item{
-        // padding: 0 20px;
+        margin: 0;
+        padding: 0;
+
+        outline: 2px solid var(--ion-color-warning);
+        outline-offset: -2px;
+    }
+    .col-title{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding:0 10px;
     }
     ion-note{
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        
     }
     ion-avatar{
         padding: 5px;
+    }
+    .pointsTag{
+        outline: 1px solid var(--ion-color-warning);
+        outline-offset: -1px;
+        margin: 0;
+        padding: 0 10px;
     }
 }

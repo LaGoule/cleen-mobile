@@ -8,6 +8,10 @@ import { EventEmitter, Input, Output } from '@angular/core';
 import { FirestoreService } from '../../@services/firestore.service';
 import { CommonModule } from '@angular/common';
 import { GroupService } from '../../@services/group.service';
+import { ToIsoStringPipe } from '../../@pipes/to-iso-string.pipe';
+import { addIcons } from 'ionicons';
+import { chevronDownOutline } from 'ionicons/icons';
+addIcons({ chevronDownOutline });
 
 @Component({
   selector: 'app-edit-todo-modal',
@@ -18,6 +22,7 @@ import { GroupService } from '../../@services/group.service';
     CommonModule,
     IonicModule,
     FormsModule,
+    ToIsoStringPipe,
   ]
 })
 export class EditTodoModalComponent  implements OnInit {
@@ -61,5 +66,6 @@ export class EditTodoModalComponent  implements OnInit {
 
   onDueDateChange(event: any) {
     this.editedTodo.dueDate = new Date(event.detail.value);
+    console.log('onDueDateChange:', this.editedTodo.dueDate);
   }
 }

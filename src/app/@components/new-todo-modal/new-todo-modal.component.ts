@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { iTodo, iUser } from '../../@interfaces/interfaces';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { addIcons } from 'ionicons';
+import { chevronDownOutline } from 'ionicons/icons';
+addIcons({ chevronDownOutline });
 
 @Component({
   selector: 'app-new-todo-modal',
@@ -30,7 +33,7 @@ export class NewTodoModalComponent  implements OnInit {
 
     creationDate: new Date(),
     color: '',
-    points: 0,
+    points: 0 as number,
     priority: 1,
     description: '',
     dueDate: new Date(),
@@ -64,12 +67,13 @@ export class NewTodoModalComponent  implements OnInit {
 
       creationDate: new Date(),
       color: this.newTodo.color,
-      points: this.newTodo.points,
+      points: this.newTodo.points as number,
       priority: this.newTodo.priority,
       description: this.newTodo.description,
       dueDate: this.newTodo.dueDate,
       repeat: this.newTodo.repeat,
       assignatedUsers: this.newTodo.assignatedUsers,
+      completedBy: [],
     }
     this._firestoreService.addTodoItem(newTodo);
     this.resetForm();
@@ -95,7 +99,7 @@ export class NewTodoModalComponent  implements OnInit {
   
       creationDate: new Date(),
       color: '',
-      points: 0,
+      points: 0 as number,
       priority: 1,
       description: '',
       repeat: 'once',

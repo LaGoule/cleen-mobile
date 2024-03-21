@@ -1,17 +1,26 @@
 <app-page-header [title]="this.title"></app-page-header>
 <ion-content color="light">
 
-    <app-dashboard-header></app-dashboard-header>
+    <app-dashboard-header
+        (emitSortingType)="onSortingTypeChange($event)"
+    ></app-dashboard-header>
     
     <app-todo-list 
         [listTitle]="'À Faire'"
         [constraintIndex]="0"
+        [sortingType]="this.sortingType"
     ></app-todo-list>
 
     <app-todo-list 
         [listTitle]="'Complétées'"
         [constraintIndex]="1"
     ></app-todo-list>
+
+    <ion-fab slot="fixed" horizontal="end" vertical="bottom">
+        <ion-fab-button (click)="openNewTodoModal()" color="secondary" size="small">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
     
 </ion-content>
 

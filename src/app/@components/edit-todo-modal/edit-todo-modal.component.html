@@ -52,6 +52,7 @@
           interface="popover" 
           label="Color" 
           placeholder="No color"
+          toggleIcon="chevron-down-outline"
         >
           <ion-select-option value="" ngDefaultControl>No color</ion-select-option>
           <ion-select-option value="red">Red</ion-select-option>
@@ -66,6 +67,7 @@
           interface="popover" 
           label="Priority" 
           placeholder="Default"
+          toggleIcon="chevron-down-outline"
         >
           <ion-select-option value="2">High</ion-select-option>
           <ion-select-option value="1" ngDefaultControl>Default</ion-select-option>
@@ -80,7 +82,7 @@
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
           <ion-datetime
-            [value]="editedTodo.dueDate"
+            [value]="this.editedTodo.dueDate|toIsoString"
             (ionChange)="onDueDateChange($event)"
             id="due-date"
             presentation="date-time"
@@ -94,6 +96,7 @@
           interface="popover" 
           label="Repeat" 
           placeholder="Once"
+          toggleIcon="chevron-down-outline"
         >
           <ion-select-option value="once" ngDefaultControl>Once</ion-select-option>
           <ion-select-option value="daily">Daily</ion-select-option>
@@ -108,6 +111,7 @@
           interface="popover" 
           label="Assignated users" 
           [multiple]="true"
+          toggleIcon="chevron-down-outline"
         >
           <ion-select-option *ngFor="let user of this.groupMembers" [value]="user">
             {{user.displayName}}

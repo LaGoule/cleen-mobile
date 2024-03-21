@@ -65,12 +65,7 @@ export class AuthenticationService {
         admin: [],
         member: [],
       },
-      points: {
-        total: 0,
-        dailyTotal: 0,
-        weaklyTotal: 0,
-        monthlyTotal: 0,
-      },
+      points: 0,
     }, loggedUser.uid);
     console.log('User created: ', this._authUser.uid);
   }

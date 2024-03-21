@@ -35,9 +35,10 @@
           [(ngModel)]="this.newTodo.points"
           interface="popover" 
           label="Nombre de points"
+          toggleIcon="chevron-down-outline"
           placeholder="0"
         >
-          <ion-select-option value="0" ngDefaultControl>0</ion-select-option>
+          <ion-select-option value="0">0</ion-select-option>
           <ion-select-option value="25">25</ion-select-option>
           <ion-select-option value="50">50</ion-select-option>
           <ion-select-option value="75">75</ion-select-option>
@@ -52,6 +53,7 @@
           interface="popover" 
           label="Color" 
           placeholder="No color"
+          toggleIcon="chevron-down-outline"
         >
           <ion-select-option value="" ngDefaultControl>No color</ion-select-option>
           <ion-select-option value="red">Red</ion-select-option>
@@ -66,6 +68,7 @@
           interface="popover" 
           label="Priority" 
           placeholder="Default"
+          toggleIcon="chevron-down-outline"
         >
           <ion-select-option value="2">High</ion-select-option>
           <ion-select-option value="1" ngDefaultControl>Default</ion-select-option>
@@ -93,6 +96,7 @@
           interface="popover" 
           label="Repeat" 
           placeholder="Once"
+          toggleIcon="chevron-down-outline"
         >
           <ion-select-option value="once" ngDefaultControl>Once</ion-select-option>
           <ion-select-option value="daily">Daily</ion-select-option>
@@ -107,6 +111,7 @@
           interface="popover" 
           label="Assignated users" 
           [multiple]="true"
+          toggleIcon="chevron-down-outline"
         >
           <ion-select-option *ngFor="let user of this.groupMembers" [value]="user">
             {{user.displayName}}
