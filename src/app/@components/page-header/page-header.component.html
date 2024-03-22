@@ -11,9 +11,11 @@
       </ng-template>
     </ion-buttons>
 
-    <ion-title>{{ title }}</ion-title>
-    <!-- <ion-title *ngIf="!this.user">{{ title }}</ion-title>
-    <ion-title *ngIf="this.user">{{ this.user.activeGroup }}</ion-title> -->
+    
+    <ion-title>
+      <ion-icon *ngIf="this.title === 'Cleen'" name="ribbon"></ion-icon>
+      {{ title }}
+    </ion-title>
 
     <ion-chip 
       *ngIf="this.user"

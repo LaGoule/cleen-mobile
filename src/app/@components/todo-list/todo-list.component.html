@@ -9,7 +9,7 @@
             <ion-label>{{ listTitle }}</ion-label>
         </ion-item-divider>
 
-        <div *ngIf="(todoList$|async) as todoList; else noTodos">   
+        <div *ngIf="todoList.length > 0; else noTodos">   
             <ion-reorder-group [disabled]="true" (ionItemReorder)="handleReorder($any($event))">
                 <app-todo-item
                     *ngFor="let todo of todoList|filterByUser:this.filterByUserId|groupBy|sortTodos:this.sortingType" [todo]="todo"
@@ -19,8 +19,10 @@
         </div>
 
         <ng-template #noTodos>
-            <ion-note class="ion-text-center ion-margin-bottom">
-                <h4>This list is empty...</h4>
+            <ion-note class="ion-text-center ion-margin-bottom ion-padding">
+                <h4 style="font-weight:400;">
+                    This list is empty...
+                </h4>
             </ion-note>
         </ng-template>
 
@@ -49,7 +51,7 @@
 
             <div>   
                 <ion-reorder-group [disabled]="true">
-                    <ion-item *ngFor="let i of [].constructor(2)">
+                    <ion-item *ngFor="let i of [].constructor(3)">
                         <ion-grid class="ion-no-padding">
                             <ion-row class="ion-justify-content-space-between ion-align-item-center">
                                 <ion-col size="1" class="ion-align-item-center">
@@ -57,17 +59,16 @@
                                 </ion-col>
                     
                                 <ion-col [size]="8" class="ion-align-self-center col-title" style="padding-top:5px;padding-bottom:5px">
-                                    <ion-skeleton-text animated="true" style="width:70%;height:12px;" class="text-title">
+                                    <ion-skeleton-text animated="true" style="width:70%;height:15px;" class="text-title">
                                     </ion-skeleton-text>
                                 </ion-col>
                     
                                 <ion-col size="3" 
-                                    class="ion-align-self-center"
+                                    class="ion-align-self-center ion-text-end ion-justify-content-end"
                                 >
                                     <ion-skeleton-text 
                                         animated="true" 
-                                        style="width:80%;height:24px;border-radius:12px;"
-                                        class="ion-justify-self-end"
+                                        style="width:74%;height:30px;border-radius:15px;float:right;"
                                     >
                                     </ion-skeleton-text>
                                 </ion-col>

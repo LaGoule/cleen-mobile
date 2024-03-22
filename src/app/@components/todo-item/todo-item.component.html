@@ -1,5 +1,6 @@
 <ion-item
     [ngClass]="todo.completed ? 'completed' : ''"
+    [ngStyle]="{ '--ion-todo-color': todo.color }"
 >
     <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-space-between ion-align-item-center">

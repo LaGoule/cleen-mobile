@@ -30,7 +30,7 @@ export class DashboardPageComponent {
 
   protected title: string = "Dashboard";
   protected message: string = '';
-  protected sortingType: string = 'alphabetical';
+  protected sortingType: string = 'mostUrgent';
 
   constructor(
     private readonly _modalController: ModalController,

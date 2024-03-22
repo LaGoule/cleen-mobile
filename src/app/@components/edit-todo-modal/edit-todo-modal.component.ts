@@ -49,7 +49,7 @@ export class EditTodoModalComponent  implements OnInit {
   }
 
   async ionViewWillEnter() {
-    console.log('ionViewWillEnter, assignUsers: ', this.editedTodo.assignatedUsers);
+    // console.log('ionViewWillEnter, assignUsers: ', this.editedTodo.assignatedUsers);
   }
 
   protected updateTodo(): void {

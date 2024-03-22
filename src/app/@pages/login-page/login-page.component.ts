@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { PageHeaderComponent } from '../../@components/page-header/page-header.component';
+import { AuthenticationService } from '../../@services/authentication.service';
+import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { logoGoogle, sparkles, informationCircleOutline } from 'ionicons/icons';
 addIcons({ logoGoogle, sparkles, informationCircleOutline });
-import { AuthenticationService } from '../../@services/authentication.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login-page',

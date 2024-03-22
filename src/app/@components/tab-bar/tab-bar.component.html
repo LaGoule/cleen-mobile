@@ -16,7 +16,7 @@
           <ion-icon name="people" size="small"></ion-icon>
           <ion-label>Group</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="settings" [disabled]="true">
+      <ion-tab-button tab="settings" [disabled]="!this._authService.activeUser">
           <ion-icon name="settings" size="small"></ion-icon>
           <ion-label>Settings</ion-label>
       </ion-tab-button>

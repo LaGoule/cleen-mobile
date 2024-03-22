@@ -1,4 +1,64 @@
 <app-page-header [title]="this.title"></app-page-header>
-<ion-content color="light">
-  <!-- Content goes here -->
+<ion-content color="light" class="ion-padding">
+
+  <ion-list class="ion-padding-start ion-padding-end ion-margin-bottom">
+    <ion-item-group>
+      <!-- <ion-item-divider mode="md">
+          <ion-label>Options</ion-label>
+      </ion-item-divider> -->
+
+      <ion-item class="ion-no-padding">
+        <ion-label>Dark Mode</ion-label>
+        <ion-icon 
+          [name]="this._settingsService.darkMode ? 'moon' : 'sunny'"
+          color="medium" 
+          class="ion-padding" 
+          size="small" 
+          slot="end" 
+        ></ion-icon>
+        <ion-toggle 
+          (ionChange)="toggleDarkMode()"
+          aria-label="Dark Mode"
+          slot="end"
+        ></ion-toggle>
+      </ion-item>
+
+      <ion-item class="ion-no-padding">
+        <ion-label>Notifications</ion-label>
+        <ion-toggle 
+          (ionChange)="toggleNotifications($event)"
+          aria-label="Notifications"
+          slot="end"
+        >
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item class="ion-no-padding">
+        <ion-label>Language</ion-label>
+        <ion-select 
+          (ionChange)="changeLanguage($event)"
+          aria-label="Language"
+          slot="end"
+          toggleIcon="chevron-down-outline"
+          justify="end"
+          value="en"
+          expend="block"
+        >
+          <ion-select-option value="en">English</ion-select-option>
+          <ion-select-option value="fr">Français</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="ion-no-padding" lines="none">
+        <ion-label>Version</ion-label>
+        <ion-label slot="end" color="medium">alpha 1.0.1</ion-label>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+
+  <ion-button (click)="logout()" color="danger" expand="block">
+    Logout
+    <ion-icon name="log-out-outline" slot="end"></ion-icon>
+  </ion-button>
+
 </ion-content>

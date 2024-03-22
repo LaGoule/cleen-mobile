@@ -95,5 +95,6 @@ export class GroupPageComponent  implements OnInit {
     await this._groupService.changeGroup(this.user, groupId).then(() => {
       this.ionViewWillEnter();
     });
+    this._router.navigate(['/group']);
   }
 }

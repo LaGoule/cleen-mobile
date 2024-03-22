@@ -33,7 +33,7 @@
 
       <ion-item class="ion-no-padding">
         <ion-select 
-          [(ngModel)]="this.newTodo.points"
+          [(ngModel)]="this.newPoints"
           interface="popover" 
           label="Nombre de points"
           toggleIcon="chevron-down-outline"
@@ -57,10 +57,12 @@
           placeholder="No color"
           toggleIcon="chevron-down-outline"
         >
-          <ion-select-option value="" ngDefaultControl>No color</ion-select-option>
-          <ion-select-option value="red">Red</ion-select-option>
-          <ion-select-option value="green">Green</ion-select-option>
-          <ion-select-option value="blue">Blue</ion-select-option>
+          <ion-select-option value="">No color</ion-select-option>
+          <ion-select-option value="#ffadad">Red</ion-select-option>
+          <ion-select-option value="#caffbf">Green</ion-select-option>
+          <ion-select-option value="#a0c4ff">Blue</ion-select-option>
+          <ion-select-option value="#fcf6bd">Yellow</ion-select-option>
+          <ion-select-option value="#ffc6ff">Purple</ion-select-option>
         </ion-select>
       </ion-item>
 
@@ -69,11 +71,11 @@
           [(ngModel)]="this.newTodo.priority"
           interface="popover" 
           label="Priority" 
-          placeholder="Default"
           toggleIcon="chevron-down-outline"
+          placeholder="Medium"
         >
           <ion-select-option value="2">High</ion-select-option>
-          <ion-select-option value="1" ngDefaultControl>Default</ion-select-option>
+          <ion-select-option value="1">Medium</ion-select-option>
           <ion-select-option value="0">Low</ion-select-option>
         </ion-select>
       </ion-item>
@@ -96,6 +98,7 @@
             (ionChange)="onDueDateChange($event)"
             id="due-date"
             presentation="date-time"
+            minuteValues="0,5,10,15,20,25,30,35,40,45,50,55"
           ></ion-datetime>
         </ng-template>
       </ion-modal>

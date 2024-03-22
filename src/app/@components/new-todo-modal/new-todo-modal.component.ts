@@ -41,6 +41,7 @@ export class NewTodoModalComponent  implements OnInit {
     repeat: 'once',
     assignatedUsers: [],
   };
+  protected newPoints: string = '0';
   protected groupMembers!: iUser[] | undefined;
 
   constructor(
@@ -87,6 +88,13 @@ export class NewTodoModalComponent  implements OnInit {
   }
   
   protected confirm(): void {
+    if(this.newTodo.title.trim() === '') {
+      return;
+    }
+    this.newTodo.points = Number(this.newPoints);
+    if(this.newTodo.isScheduled && this.newTodo.dueDate === null) {
+      this.newTodo.dueDate = new Date();
+    }
     this.createTodo();
     this._modalController.dismiss(null, 'cancel');
     this._router.navigate(['/']);

@@ -38,7 +38,24 @@ export class SortTodosPipe implements PipeTransform {
           return 0;
         });
       case 'color':
-        return value.sort((a, b) => a.color.localeCompare(b.color));
+        return value.sort((a, b) => {
+          if (!a.color && !b.color) {
+            return 0;
+          }
+          if (!a.color) {
+            return 1;
+          }
+          if (!b.color) {
+            return -1;
+          }
+          return a.color.localeCompare(b.color);
+        });
+      case 'priority':
+        return value.sort((a, b) => b.priority - a.priority);
+      case 'mostPoints':
+        return value.sort((a, b) => b.points - a.points);
+      case 'leastPoints':
+        return value.sort((a, b) => a.points - b.points);
       default:
         return value;
     }

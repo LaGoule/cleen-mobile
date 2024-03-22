@@ -4,13 +4,14 @@
     <app-member-item [member]="this.user" [isLink]="false"></app-member-item>
   </ion-list>
   
-  <!-- <ion-button (click)="resetUserPoints()" color="warning" expand="block">
+  <!-- *ngIf="this.user.uid === this._authService.activeUser.uid" -->
+  <ion-button 
+    (click)="resetUserPoints()" 
+    color="secondary" 
+    expand="block"
+  >
     Reset points
-  </ion-button> -->
-
-  <ion-button (click)="logout()" color="danger" expand="block">
-    Logout
-    <ion-icon name="log-out-outline" slot="end"></ion-icon>
+    <ion-icon name="trash" slot="end"></ion-icon>
   </ion-button>
 
   <app-todo-list 

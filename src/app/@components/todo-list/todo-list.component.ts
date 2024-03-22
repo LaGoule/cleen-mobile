@@ -17,6 +17,7 @@ import { EditTodoModalComponent } from '../edit-todo-modal/edit-todo-modal.compo
 import { ModalController } from '@ionic/angular/standalone';
 import { GroupByPipe } from '../../@pipes/group-by.pipe';
 import { FilterByUserPipe } from '../../@pipes/filter-by-user.pipe';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-todo-list',
@@ -77,9 +78,17 @@ export class TodoListComponent {
   async ngOnInit(): Promise<void> {
     this.activeGroup = this._groupService.activeGroup;
     this.todoList$ = this._firestoreService.loadTodos(this.activeGroup, this.constraintIndex);
+
+    // console.log(this.listTitle, this.todoList$.pipe(
+    //   map((todos: iTodo[]) => {
+    //     return todos.map((todo: iTodo) => {
+    //       return todo.id;
+    //     })
+    //   }
+    // )));
   }
 
-  public async ionOnViewWillEnter(): Promise<void> {
+  ionViewWillEnter(): void {
     this.activeGroup = this._groupService.activeGroup;
     this.todoList$ = this._firestoreService.loadTodos(this.activeGroup, this.constraintIndex);
   }

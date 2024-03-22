@@ -3,9 +3,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { iUser } from '../../@interfaces/interfaces';
 import { addIcons } from 'ionicons';
-import { ribbon } from 'ionicons/icons';
 import { FirestoreService } from '../../@services/firestore.service';
-addIcons({ ribbon });
+import { ribbon, shieldCheckmark } from 'ionicons/icons';
+import { GroupService } from '../../@services/group.service';
+addIcons({ ribbon, shieldCheckmark });
 
 @Component({
   selector: 'app-member-item',
@@ -23,12 +24,19 @@ export class MemberItemComponent implements OnInit{
 
   constructor(
     private readonly _firestoreService: FirestoreService,
+    protected readonly _groupService: GroupService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // check if member is admin of the group
+  }
 
   async ngOnViewWillEnter() {
     this.member = await this._firestoreService.getUser(this.member.uid);
+  }
+
+  handleImgError(event: any, url: string) {
+    event.target.src = url;
   }
 
 }

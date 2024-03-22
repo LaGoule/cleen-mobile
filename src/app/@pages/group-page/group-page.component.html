@@ -13,15 +13,14 @@
         <ion-list>
           <ion-item lines="none">
             <ion-select 
-              [disabled]="true"
+              [disabled]="false"
               *ngIf="this.userGroups; else loading"
               (ionChange)="this.handleGroupChange($event.detail.value)"
               [value]="this.activeGroup.id"
               interface="popover" 
               toggleIcon="chevron-down-outline"
-              fill="outline"
-              expend="block"
-              justify="end"
+              justify="space-between"
+              label="Group"
             >
               <ion-select-option 
                 *ngFor="let group of this.userGroups"

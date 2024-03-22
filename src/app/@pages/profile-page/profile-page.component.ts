@@ -3,8 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { PageHeaderComponent } from '../../@components/page-header/page-header.component';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { logOutOutline } from 'ionicons/icons';
-addIcons({ logOutOutline });
+import { logOutOutline, trash } from 'ionicons/icons';
+addIcons({ logOutOutline, trash });
 import { AuthenticationService } from '../../@services/authentication.service';
 import { CommonModule } from '@angular/common';
 import { MemberItemComponent } from '../../@components/member-item/member-item.component';
@@ -32,7 +32,7 @@ export class ProfilePageComponent  implements OnInit {
   id!: any;
 
   constructor(
-    private readonly _authService: AuthenticationService,
+    protected readonly _authService: AuthenticationService,
     private readonly router: Router,
     private readonly _firestoreService: FirestoreService,
   ) { }
@@ -45,12 +45,6 @@ export class ProfilePageComponent  implements OnInit {
 
   async ionViewWillEnter() {
     this.user = await this._firestoreService.getUser(this.id);
-    // console.log('id de l\'user: ',this.id);
-    // console.log('user à afficher dans profile: ',this.user);
-  }
-
-  logout() {
-    this._authService.logout();
   }
 
   async resetUserPoints() {
