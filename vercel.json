@@ -1,17 +1,17 @@
 {
     "builds": [
-        {
+      {
         "src": "package.json",
         "use": "@vercel/static-build",
         "config": {
-            "distDir": "dist/cleen-mobile/browser"
+          "distDir": "dist/cleen-mobile"
         }
-        }
+      }
     ],
-    "routes": [
-        {
-        "src": "/(.*)",
-        "dest": "/index.html"
-        }
+    "rewrites": [
+      {
+        "source": "/((?!.*\\.(js|css|png|jpg|jpeg|svg|webmanifest)$).*)",
+        "destination": "/index.html"
+      }
     ]
-}
+  }
