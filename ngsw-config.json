@@ -4,14 +4,15 @@
   "assetGroups": [
     {
       "name": "app",
-      "installMode": "prefetch",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
           "/index.html",
           "/manifest.webmanifest",
-          "/*.css",
-          "/*.js"
+          "/**/*.css",
+          "/**/*.js"
         ]
       }
     },
@@ -26,5 +27,20 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "api-calls",
+      "urls": ["https://ton-api.com/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "1d",
+        "timeout": "5s"
+      }
+    }
+  ],
+  "navigationUrls": [
+    { "positive": "/*", "negative": ["/assets/*", "/favicon.ico"] }
   ]
 }
