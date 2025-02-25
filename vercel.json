@@ -4,6 +4,6 @@
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "builds": [
-    { "src": "angular.json", "use": "@vercel/static-build", "config": { "distDir": "dist/cleen-mobile" } }
+    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist/cleen-mobile" } }
   ]
 }
